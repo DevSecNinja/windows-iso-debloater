@@ -41,7 +41,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # v4.3.1
 
       - name: Show available disk space (before)
         shell: pwsh
@@ -236,7 +236,7 @@ jobs:
           "iso_path=$iso" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
 
       - name: Generate build provenance attestation
-        uses: actions/attest-build-provenance@v2
+        uses: actions/attest-build-provenance@e8998f949152b193b063cb0ec769d69d929409be  # v2.4.0
         with:
           subject-path: ${{ steps.output.outputs.iso_path }}
 
@@ -246,7 +246,7 @@ jobs:
         run: if (Test-Path "$env:GITHUB_WORKSPACE\script_log.txt") { Get-Content "$env:GITHUB_WORKSPACE\script_log.txt" -Tail 200 }
 
       - name: Upload debloated ISO
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02  # v4.6.2
         with:
           name: windows11-${{ steps.meta.outputs.build }}-debloated-iso
           path: |
@@ -258,7 +258,7 @@ jobs:
 
       - name: Upload script log
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02  # v4.6.2
         with:
           name: debloater-log
           path: ${{ github.workspace }}/script_log.txt

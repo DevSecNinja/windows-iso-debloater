@@ -1,0 +1,7 @@
+{
+  $schema: 'https://docs.renovatebot.com/renovate-schema.json',
+  // Shared DevSecNinja preset (config:best-practices, rangeStrategy "pin",
+  // custom managers keyed off "# renovate:" comments). Keeps SHA-pinned GitHub
+  // Actions and other dependencies up to date while preserving digest pinning.
+  extends: ['github>DevSecNinja/.github'],
+}
