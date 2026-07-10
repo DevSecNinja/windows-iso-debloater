@@ -1667,55 +1667,44 @@ Write-Log -msg "ISO file name set to: $ISOFileName.iso"
 
 if ($DoUseOscdimg) {
     if (-not (Test-Path -Path $Oscdimg)) {
-        Write-Log -msg "Oscdimg.exe not found at '$Oscdimg'"
+        Write-Log -msg "Oscdimg.exe not found at '$Oscdimg'. Attempting to download and install Windows ADK Deployment Tools."
         Write-Host "`nOscdimg.exe not found at '$Oscdimg'." -ForegroundColor Red
-        Write-Host "`nTrying to Download oscdimg.exe..." -ForegroundColor Cyan
+        Write-Host "`nDownloading Windows ADK Deployment Tools (Oscdimg)..." -ForegroundColor Cyan
 
         Test-InternetConnection | Out-Null
 
-        # Downloading Oscdimg.exe
-        # Courtesy: https://github.com/p0w3rsh3ll/ADK
-        $ADKfolder = "$scriptDirectory\ADKDownload"
-        $CabFileName = "5d984200acbde182fd99cbfbe9bad133.cab"
-        $ExtractedFileName = "fil720cc132fbb53f3bed2e525eb77bdbc1"
+        $adkUrl = "https://go.microsoft.com/fwlink/?linkid=2250347"
+        $adkInstaller = Join-Path $env:TEMP "adksetup.exe"
 
-        New-Item -ItemType Directory -Path $OscdimgPath -Force 2>&1 | Write-Log
-        New-Item -ItemType Directory -Path $ADKfolder -Force 2>&1 | Write-Log
-
-        # Resolve the URL
-        $RedirectResponse = Invoke-WebRequest -Uri "https://go.microsoft.com/fwlink/?linkid=2290227" -MaximumRedirection 0 -UseBasicParsing -ErrorAction SilentlyContinue
-        if ($RedirectResponse.StatusCode -eq 302) {
-            $BaseURL = $RedirectResponse.Headers.Location.TrimEnd('/') + "/"
-            $CabURL = "$BaseURL`Installers/$CabFileName"
-            $CabFilePath = "$ADKfolder\$CabFileName"
-
-            Write-Log -msg "Downloading CAB file from: $CabURL"
-            Invoke-WebRequest -Uri $CabURL -OutFile $CabFilePath -UseBasicParsing
-
-            # Extract the CAB file
-            Write-Log -msg "Extracting CAB file..."
-            expand.exe -F:* $CabFilePath $ADKfolder 2>&1 | Write-Log
-
-            # Move the required file
-            $ExtractedFilePath = "$ADKfolder\$ExtractedFileName"
-            $FinalFilePath = "$OscdimgPath\oscdimg.exe"
-
-            if (Test-Path $ExtractedFilePath) {
-                Move-Item -Path $ExtractedFilePath -Destination $FinalFilePath -Force 2>&1 | Write-Log
-                Write-Host "Oscdimg.exe downloaded successfully" -ForegroundColor Green
-                Write-Log -msg "Oscdimg.exe successfully placed in: $OscdimgPath"
+        try {
+            Write-Log -msg "Downloading ADK installer from $adkUrl"
+            & curl.exe -L --fail --retry 5 --retry-delay 10 --retry-connrefused -o $adkInstaller $adkUrl
+            if ($LASTEXITCODE -ne 0 -or -not (Test-Path $adkInstaller)) {
+                throw "curl.exe exited with code $LASTEXITCODE — failed to download ADK installer"
             }
-            else {
-                Write-Log -msg "Error: Extracted file not found!"
+
+            Write-Log -msg "Installing ADK Deployment Tools (quiet)..."
+            Start-Process -FilePath $adkInstaller `
+                -ArgumentList "/quiet /norestart /features OptionId.DeploymentTools" `
+                -Wait -NoNewWindow
+
+            if (-not (Test-Path $Oscdimg)) {
+                throw "Oscdimg.exe was not found after ADK installation at: $Oscdimg"
             }
+
+            Write-Host "Oscdimg.exe installed successfully" -ForegroundColor Green
+            Write-Log -msg "Oscdimg.exe successfully installed at: $Oscdimg"
         }
-        else {
+        catch {
             Write-Host "Error: Failed to download Oscdimg.exe" -ForegroundColor Red
-            Write-Log -msg "Failed to resolve ADK download link. HTTP Status: $($RedirectResponse.StatusCode)"
+            Write-Log -msg "Oscdimg download/install failed: $($_.Exception.Message)"
             Remove-TempFiles
             Pause
             Exit
         }
+    }
+    else {
+        Write-Log -msg "Oscdimg.exe already present at '$Oscdimg', skipping download."
     }
 
     # Generate ISO
