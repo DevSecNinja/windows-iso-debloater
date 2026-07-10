@@ -3,19 +3,22 @@
     <settings pass="oobeSystem">
         <component name="Microsoft-Windows-Shell-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State">
             <OOBE>
-                <!-- Show all OOBE screens except internet connectivity -->
+                <!-- Deprecated setting (see Microsoft "Automate OOBE"); has no effect. Left at false. -->
                 <SkipUserOOBE>false</SkipUserOOBE>
-                <!-- Set to false during install, but automatically go to local account after install -->
+                <!-- true = hide the sign-in page during OOBE, so the mandatory Microsoft-account
+                     sign-in is skipped and a local account can be created. -->
                 <HideOnlineAccountScreens>true</HideOnlineAccountScreens>
-                <!-- Set to bypass internet connectivity check after installation -->
+                <!-- true = hide the "Join a wireless network" page during OOBE. -->
                 <HideWirelessSetupInOOBE>true</HideWirelessSetupInOOBE>
-                <!-- Ensure local account screen is shown -->
+                <!-- Windows Server editions only (no effect on client); false = do not hide the
+                     Administrator password screen. -->
                 <HideLocalAccountScreen>false</HideLocalAccountScreen>
-                <!-- Show EULA page -->
+                <!-- false = show the Microsoft Software License Terms (EULA) page. -->
                 <HideEULAPage>false</HideEULAPage>
-                <!-- Skip "I don't have internet" page -->
+                <!-- Sets the network type / firewall profile (Home | Work | Other).
+                     Does not control any OOBE page. -->
                 <NetworkLocation>Home</NetworkLocation>
-                <!-- Skip Microsoft account setup -->
+                <!-- Deprecated setting (see Microsoft "Automate OOBE"); has no effect. Left at false. -->
                 <SkipMachineOOBE>false</SkipMachineOOBE>
             </OOBE>
         </component>
