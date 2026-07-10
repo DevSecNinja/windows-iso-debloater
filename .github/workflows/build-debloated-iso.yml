@@ -73,13 +73,11 @@ jobs:
           $ErrorActionPreference = 'Stop'
           $ProgressPreference = 'SilentlyContinue'
 
-          # Ensure Autounattend.xml is present (used by the debloater script)
+          # Autounattend.xml ships in this repository; use the checked-out copy and never
+          # fetch it from an external (upstream-author-controlled) URL.
           $autounattendPath = Join-Path $env:GITHUB_WORKSPACE 'autounattend.xml'
           if (-not (Test-Path $autounattendPath)) {
-            Write-Host "Downloading Autounattend.xml..."
-            Invoke-WebRequest -Uri 'https://itsnileshhere.github.io/Windows-ISO-Debloater/autounattend.xml' `
-              -OutFile $autounattendPath -UseBasicParsing
-            if (-not (Test-Path $autounattendPath)) { throw "Failed to download Autounattend.xml" }
+            throw "autounattend.xml not found in the repository checkout at $autounattendPath"
           }
           Write-Host "Autounattend.xml present at $autounattendPath"
 

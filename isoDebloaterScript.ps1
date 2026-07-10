@@ -393,7 +393,7 @@ $autounattendXmlPath = Join-Path -Path $scriptDirectory -ChildPath "Autounattend
 # Download Autounattend.xml if not exists
 if (-not (Test-Path $autounattendXmlPath)) {
     $ProgressPreference = 'SilentlyContinue'
-    try { Invoke-WebRequest "https://itsnileshhere.github.io/Windows-ISO-Debloater/autounattend.xml" -OutFile $autounattendXmlPath -UseBasicParsing }
+    try { Invoke-WebRequest "https://raw.githubusercontent.com/DevSecNinja/windows-iso-debloater/main/autounattend.xml" -OutFile $autounattendXmlPath -UseBasicParsing }
     catch { Write-Log -msg "Warning: Unable to download Autounattend.xml" }
     finally { $ProgressPreference = 'Continue' }
 }
@@ -1462,7 +1462,7 @@ if ($DoDriverIntegrate) {
     $driverTempPath = "$env:SystemDrive\WIDTemp\drivers"
     $driverZipPath = "$driverTempPath\drivers.zip"
     $driverExtractPath = "$driverTempPath\extracted"
-    $DriverURL = "https://github.com/itsNileshHere/Windows-ISO-Debloater/archive/refs/heads/main.zip"
+    $DriverURL = "https://github.com/DevSecNinja/windows-iso-debloater/archive/refs/heads/main.zip"
 
     try {
         # Create temp directories
@@ -1505,7 +1505,7 @@ if ($DoDriverIntegrate) {
         Write-Log -msg "Drivers extracted to $driverExtractPath"
 
         # Get and verify driver path
-        $driverSourcePath = Join-Path $driverExtractPath "Windows-ISO-Debloater-main\Drivers"
+        $driverSourcePath = Join-Path $driverExtractPath "windows-iso-debloater-main\Drivers"
         if (-not (Test-Path $driverSourcePath)) {
             Write-Host "Driver folder not found in extracted files" -ForegroundColor Red
             Write-Log -msg "Driver folder not found at: $driverSourcePath"

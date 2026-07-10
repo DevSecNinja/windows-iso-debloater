@@ -31,12 +31,12 @@ The script has been thoroughly tested with:
 Launch PowerShell as **Administrator** and execute:
 
 ```powershell
-irm "https://itsnileshhere.pages.dev/wid" | iex
+irm "https://raw.githubusercontent.com/DevSecNinja/windows-iso-debloater/main/download.ps1" | iex
 ```
 
 ### Option 2: Manual Download and Execution
 
-Download the latest `isoDebloater.ps1` from [here](https://github.com/itsNileshHere/Windows-ISO-Debloater/releases/latest)
+Download the latest `isoDebloaterScript.ps1` from [here](https://github.com/DevSecNinja/windows-iso-debloater/releases/latest)
 
 #### Command Line Arguments
 

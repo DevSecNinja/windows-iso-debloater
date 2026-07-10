@@ -1,6 +1,6 @@
-# $scriptUrl = "https://raw.githubusercontent.com/itsNileshHere/Windows-ISO-Debloater/main/isoDebloaterScript.ps1"
-$scriptUrl = "https://itsnileshhere.github.io/Windows-ISO-Debloater/isoDebloaterScript.ps1"
-$autounattendXmlUrl = "https://itsnileshhere.github.io/Windows-ISO-Debloater/autounattend.xml"
+# Fetch from this fork over GitHub-served TLS so we never execute upstream-author-controlled content.
+$scriptUrl = "https://raw.githubusercontent.com/DevSecNinja/windows-iso-debloater/main/isoDebloaterScript.ps1"
+$autounattendXmlUrl = "https://raw.githubusercontent.com/DevSecNinja/windows-iso-debloater/main/autounattend.xml"
 
 # Fail closed on any error so a failed/partial download is never run elevated below.
 $ErrorActionPreference = "Stop"
