@@ -65,7 +65,8 @@ if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdenti
     else { Start-Process PowerShell $argss -Verb RunAs }
     Exit
 }
-Clear-Host
+# Clear-Host can throw "The handle is invalid" in non-interactive hosts (e.g. CI); ignore that.
+try { Clear-Host } catch { }
 $asciiArt = @"
  _       ___           __                      _________ ____     ____       __    __            __
 | |     / (_)___  ____/ /___ _      _______   /  _/ ___// __ \   / __ \___  / /_  / /___  ____ _/ /____  _____

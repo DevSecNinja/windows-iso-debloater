@@ -141,7 +141,12 @@ jobs:
           WIN_EDITION: ${{ inputs.win_edition }}
           BASENAME: ${{ steps.meta.outputs.basename }}
         run: |
-          $ErrorActionPreference = 'Stop'
+          # The debloater is designed to run with default (Continue) error handling:
+          # it intentionally triggers benign non-terminating errors (e.g. removing
+          # optional packages / non-existent registry keys). Do NOT force 'Stop' here,
+          # or the first such error aborts the whole script. Success is verified by the
+          # next step, which fails if the output ISO is missing.
+          $ErrorActionPreference = 'Continue'
           $isoPath = "$env:RUNNER_TEMP\windows11-source.iso"
           # Fixed, reproducible debloat recipe (kept in sync with the README table).
           $debloatArgs = @{
@@ -163,6 +168,9 @@ jobs:
             useOscdimg         = "yes"
           }
           & "$env:GITHUB_WORKSPACE\isoDebloaterScript.ps1" @debloatArgs
+          # Ignore stray non-zero $LASTEXITCODE from benign native calls (reg/dism/etc.).
+          # A genuine fatal path in the script calls Exit itself; the next step verifies the ISO.
+          exit 0
 
       - name: Locate output ISO and compute checksum
         id: output
