@@ -14,6 +14,7 @@ param(
     [ValidateSet("yes", "no")]$OnedriveRemove = "",
     [ValidateSet("yes", "no")]$EDGERemove = "",
     [ValidateSet("yes", "no")]$AIRemove = "",
+    [ValidateSet("yes", "no")]$RecallRemove = "",
     [ValidateSet("yes", "no")]$TPMBypass = "",
     [ValidateSet("yes", "no")]$UserFoldersEnable = "",
     [ValidateSet("yes", "no")]$DriverIntegrate = "",
@@ -591,6 +592,7 @@ $DoCapabilitiesRemove = Get-ParameterValue -ParameterValue $CapabilitiesRemove -
 $DoOnedriveRemove = Get-ParameterValue -ParameterValue $OnedriveRemove -DefaultValue $true -Question "Remove OneDrive?" -Description "Optional: Completely removes OneDrive"
 $DoEDGERemove = Get-ParameterValue -ParameterValue $EDGERemove -DefaultValue $true -Question "Remove Microsoft Edge?" -Description "Optional: Removes Edge components (Breaks Widgets)"
 $DoAIRemove = Get-ParameterValue -ParameterValue $AIRemove -DefaultValue $true -Question "Remove AI Components?" -Description "Optional: Removes everything related to AI"
+$DoRecallRemove = Get-ParameterValue -ParameterValue $RecallRemove -DefaultValue $false -Question "Disable Recall?" -Description "Optional: Disables Windows Recall only (keeps Copilot and other AI)"
 $DoTPMBypass = Get-ParameterValue -ParameterValue $TPMBypass -DefaultValue $false -Question "Bypass TPM check?" -Description "Only if needed for older hardware"
 $DoUserFoldersEnable = Get-ParameterValue -ParameterValue $UserFoldersEnable -DefaultValue $true -Question "Enable user folders?" -Description "Recommended: Enables Desktop, Documents, etc."
 $DoDriverIntegrate = Get-ParameterValue -ParameterValue $DriverIntegrate -DefaultValue $false -Question "Integrate Intel RST/VMD drivers?" -Description "Optional: Helps with Intel VMD storage controllers"
@@ -608,6 +610,7 @@ $appxPatternsToRemove = @(
     "Clipchamp.Clipchamp*",                     # Clipchamp
     "Microsoft.549981C3F5F10*",                 # Cortana
     "MicrosoftWindows.CrossDevice*",            # CrossDevice
+    "MicrosoftWindows.Client.WebExperience*",   # Widgets (WebExperience)
     "Microsoft.Windows.DevHome*",               # DevHome
     "MicrosoftCorporationII.MicrosoftFamily*",  # Family
     "Microsoft.WindowsFeedbackHub*",            # FeedbackHub
@@ -618,6 +621,7 @@ $appxPatternsToRemove = @(
     "Microsoft.MixedReality.Portal*",           # MixedReality
     "Microsoft.ZuneMusic*",                     # Music
     "Microsoft.MicrosoftOfficeHub*",            # OfficeHub
+    "Microsoft.M365Companions*",                # M365 Companions (Files & contacts app)
     "Microsoft.Office.OneNote*",                # OneNote
     "Microsoft.OutlookForWindows*",             # Outlook
     "Microsoft.MSPaint*",                       # Paint3D(Windows10)
@@ -1086,6 +1090,38 @@ if ($buildNumber -ge 22000) {
     } else {
         Write-Log -msg "AI Components removal skipped"
     }
+}
+
+# Disable Recall only (independent of full AI removal, so Copilot is kept)
+if ($buildNumber -ge 22000 -and $DoRecallRemove -and -not $DoAIRemove) {
+    Write-Host ("`n[INFO] Disabling Recall...") -ForegroundColor Cyan
+    Write-Log -msg "Disabling Recall (keeping Copilot)"
+    try {
+        reg load HKLM\zSOFTWARE "$installMountDir\Windows\System32\config\SOFTWARE" 2>&1 | Write-Log
+        reg load HKLM\zNTUSER "$installMountDir\Users\Default\ntuser.dat" 2>&1 | Write-Log
+
+        # Recall policies (machine-wide) - these are Recall-specific and do not affect Copilot
+        reg add "HKLM\zSOFTWARE\Policies\Microsoft\Windows\WindowsAI" /v "DisableAIDataAnalysis" /t REG_DWORD /d "1" /f 2>&1 | Write-Log
+        reg add "HKLM\zSOFTWARE\Policies\Microsoft\Windows\WindowsAI" /v "AllowRecallEnablement" /t REG_DWORD /d "0" /f 2>&1 | Write-Log
+        reg add "HKLM\zSOFTWARE\Policies\Microsoft\Windows\WindowsAI" /v "TurnOffSavingSnapshots" /t REG_DWORD /d "1" /f 2>&1 | Write-Log
+        # Recall policies (default user)
+        reg add "HKLM\zNTUSER\Software\Policies\Microsoft\Windows\WindowsAI" /v "DisableAIDataAnalysis" /t REG_DWORD /d "1" /f 2>&1 | Write-Log
+        reg add "HKLM\zNTUSER\Software\Policies\Microsoft\Windows\WindowsAI" /v "AllowRecallEnablement" /t REG_DWORD /d "0" /f 2>&1 | Write-Log
+        reg add "HKLM\zNTUSER\Software\Policies\Microsoft\Windows\WindowsAI" /v "TurnOffSavingSnapshots" /t REG_DWORD /d "1" /f 2>&1 | Write-Log
+        # Unpin Recall from the taskbar
+        reg add "HKLM\zNTUSER\Software\Microsoft\Windows\CurrentVersion\Explorer\Taskband\AuxilliaryPins" /v "RecallPin" /t REG_DWORD /d "0" /f 2>&1 | Write-Log
+        # Disable the Recall optional feature on first logon
+        reg add "HKLM\zSOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce" /v "DisableRecall" /t REG_SZ /d "dism.exe /online /disable-feature /FeatureName:recall" /f 2>&1 | Write-Log
+    }
+    catch {
+        Write-Log -msg "Error disabling Recall: $_"
+    }
+    finally {
+        reg unload HKLM\zSOFTWARE 2>&1 | Write-Log
+        reg unload HKLM\zNTUSER 2>&1 | Write-Log
+    }
+    Write-Host ("[OK] Recall disabled (Copilot kept)") -ForegroundColor Green
+    Write-Log -msg "Recall disabled"
 }
 
 # Registry Tweaks

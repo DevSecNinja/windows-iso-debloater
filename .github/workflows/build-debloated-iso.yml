@@ -1,0 +1,217 @@
+name: Build debloated ISO
+
+# Downloads an official Microsoft Windows ISO (via Fido), runs the debloater
+# script headlessly and uploads the resulting ISO as a workflow artifact.
+on:
+  workflow_dispatch:
+    inputs:
+      windows_release:
+        description: "Windows 11 release to download (e.g. 24H2, or 'latest')"
+        default: "latest"
+        type: string
+      fido_edition:
+        description: "Edition group of the source ISO to download"
+        default: "Home/Pro"
+        type: string
+      language:
+        description: "ISO language (e.g. English, English International, Dutch)"
+        default: "English International"
+        type: string
+      arch:
+        description: "Architecture"
+        default: "x64"
+        type: choice
+        options:
+          - x64
+          - arm64
+      win_edition:
+        description: "Image inside the ISO to debloat (e.g. 'Windows 11 Pro')"
+        default: "Windows 11 Pro"
+        type: string
+
+jobs:
+  build-iso:
+    runs-on: windows-latest
+    timeout-minutes: 240
+
+    permissions:
+      contents: read
+      id-token: write
+      attestations: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Show available disk space (before)
+        shell: pwsh
+        run: Get-PSDrive -PSProvider FileSystem | Select-Object Name, @{n='Used(GB)';e={[math]::Round($_.Used/1GB,1)}}, @{n='Free(GB)';e={[math]::Round($_.Free/1GB,1)}} | Format-Table -AutoSize
+
+      - name: Download Fido (pinned + checksum verified)
+        shell: pwsh
+        env:
+          # renovate: datasource=github-releases depName=pbatard/Fido
+          FIDO_VERSION: "v1.70"
+          # SHA256 of Fido.ps1 at the pinned tag; update when bumping FIDO_VERSION.
+          FIDO_SHA256: "24c86067fa399d2fd75ef0693a2ec79ca8db162827f808caac03541cbf640c13"
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $ProgressPreference = 'SilentlyContinue'
+          $dest = "$env:RUNNER_TEMP\Fido.ps1"
+          $url = "https://raw.githubusercontent.com/pbatard/Fido/$($env:FIDO_VERSION)/Fido.ps1"
+          Invoke-WebRequest -Uri $url -OutFile $dest -UseBasicParsing
+          if (-not (Test-Path $dest)) { throw "Failed to download Fido.ps1" }
+          $actual = (Get-FileHash -Path $dest -Algorithm SHA256).Hash
+          if ($actual -ne $env:FIDO_SHA256) {
+            throw "Fido.ps1 checksum mismatch. Expected $($env:FIDO_SHA256), got $actual"
+          }
+          Write-Host "Fido $($env:FIDO_VERSION) verified (SHA256 $actual)"
+
+      - name: Resolve Windows ISO download URL
+        id: fido
+        shell: pwsh
+        env:
+          REL: ${{ inputs.windows_release }}
+          ED: ${{ inputs.fido_edition }}
+          LANG: ${{ inputs.language }}
+          ARCH: ${{ inputs.arch }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $fidoArgs = @{ Win = '11'; GetUrl = $true }
+          if ($env:REL)  { $fidoArgs.Rel  = $env:REL }
+          if ($env:ED)   { $fidoArgs.Ed   = $env:ED }
+          if ($env:LANG) { $fidoArgs.Lang = $env:LANG }
+          if ($env:ARCH) { $fidoArgs.Arch = $env:ARCH }
+
+          $url = $null
+          for ($i = 1; $i -le 3; $i++) {
+            try {
+              $out = & "$env:RUNNER_TEMP\Fido.ps1" @fidoArgs
+              $url = $out | Where-Object { $_ -match '^https?://' } | Select-Object -Last 1
+              if ($url) { break }
+            } catch {
+              Write-Host "Fido attempt $i failed: $($_.Exception.Message)"
+            }
+            Start-Sleep -Seconds 15
+          }
+          if (-not $url) { throw "Could not resolve a Windows ISO download URL via Fido." }
+          Write-Host "Resolved ISO URL (host): $([Uri]$url | ForEach-Object Host)"
+          "iso_url=$url" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+
+      - name: Download Windows ISO
+        shell: pwsh
+        env:
+          ISO_URL: ${{ steps.fido.outputs.iso_url }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $isoPath = "$env:RUNNER_TEMP\windows11-source.iso"
+          curl.exe -L --fail --retry 5 --retry-delay 15 --retry-connrefused -o "$isoPath" "$env:ISO_URL"
+          if ($LASTEXITCODE -ne 0) { throw "curl failed with exit code $LASTEXITCODE" }
+          $size = (Get-Item $isoPath).Length
+          Write-Host "Downloaded ISO size: $([math]::Round($size/1GB,2)) GB"
+          if ($size -lt 1GB) { throw "Downloaded ISO is unexpectedly small ($size bytes)." }
+
+      - name: Detect Windows build number
+        id: meta
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $isoPath = "$env:RUNNER_TEMP\windows11-source.iso"
+          $mount = Mount-DiskImage -ImagePath $isoPath -PassThru
+          try {
+            $drive = ($mount | Get-Volume).DriveLetter
+            $wim = "${drive}:\sources\install.wim"
+            $esd = "${drive}:\sources\install.esd"
+            $img = if (Test-Path $wim) { $wim } elseif (Test-Path $esd) { $esd } else { throw "No install.wim/esd found in ISO" }
+            $ver = (Get-WindowsImage -ImagePath $img -Index 1).Version
+          } finally {
+            Dismount-DiskImage -ImagePath $isoPath | Out-Null
+          }
+          Write-Host "Image version: $ver"
+          $build = if ($ver -match '^10\.0\.(\d+\.\d+)$') { $matches[1] } else { ($ver -replace '[^0-9.]', '') }
+          if (-not $build) { throw "Could not determine Windows build number from version '$ver'" }
+          $basename = "windows11-$build-debloated"
+          Write-Host "Build number: $build"
+          "build=$build"       | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          "basename=$basename" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+
+      - name: Run ISO debloater
+        shell: pwsh
+        env:
+          WIN_EDITION: ${{ inputs.win_edition }}
+          BASENAME: ${{ steps.meta.outputs.basename }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $isoPath = "$env:RUNNER_TEMP\windows11-source.iso"
+          # Fixed, reproducible debloat recipe (kept in sync with the README table).
+          $debloatArgs = @{
+            noPrompt           = $true
+            isoPath            = $isoPath
+            winEdition         = $env:WIN_EDITION
+            outputISO          = "$($env:BASENAME).iso"
+            useDISM            = "yes"
+            AppxRemove         = "yes"
+            CapabilitiesRemove = "yes"
+            OnedriveRemove     = "no"
+            EDGERemove         = "no"
+            AIRemove           = "no"
+            RecallRemove       = "yes"
+            TPMBypass          = "no"
+            UserFoldersEnable  = "yes"
+            DriverIntegrate    = "no"
+            ESDConvert         = "yes"
+            useOscdimg         = "yes"
+          }
+          & "$env:GITHUB_WORKSPACE\isoDebloaterScript.ps1" @debloatArgs
+
+      - name: Locate output ISO and compute checksum
+        id: output
+        shell: pwsh
+        env:
+          BASENAME: ${{ steps.meta.outputs.basename }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $name = "$($env:BASENAME).iso"
+          $iso = Join-Path $env:GITHUB_WORKSPACE $name
+          if (-not (Test-Path $iso)) { throw "Debloated ISO not found at $iso" }
+          $size = (Get-Item $iso).Length
+          Write-Host "Debloated ISO size: $([math]::Round($size/1GB,2)) GB"
+          $hash = (Get-FileHash -Path $iso -Algorithm SHA256).Hash
+          "$hash  $name" | Out-File -FilePath "$iso.sha256" -Encoding ascii
+          Write-Host "SHA256: $hash"
+          "iso_path=$iso" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+
+      - name: Generate build provenance attestation
+        uses: actions/attest-build-provenance@v2
+        with:
+          subject-path: ${{ steps.output.outputs.iso_path }}
+
+      - name: Show script log
+        if: always()
+        shell: pwsh
+        run: if (Test-Path "$env:GITHUB_WORKSPACE\script_log.txt") { Get-Content "$env:GITHUB_WORKSPACE\script_log.txt" -Tail 200 }
+
+      - name: Upload debloated ISO
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows11-${{ steps.meta.outputs.build }}-debloated-iso
+          path: |
+            ${{ steps.output.outputs.iso_path }}
+            ${{ steps.output.outputs.iso_path }}.sha256
+          retention-days: 7
+          compression-level: 0
+          if-no-files-found: error
+
+      - name: Upload script log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: debloater-log
+          path: ${{ github.workspace }}/script_log.txt
+          retention-days: 7
+          if-no-files-found: ignore
+
+      - name: Show available disk space (after)
+        if: always()
+        shell: pwsh
+        run: Get-PSDrive -PSProvider FileSystem | Select-Object Name, @{n='Used(GB)';e={[math]::Round($_.Used/1GB,1)}}, @{n='Free(GB)';e={[math]::Round($_.Free/1GB,1)}} | Format-Table -AutoSize

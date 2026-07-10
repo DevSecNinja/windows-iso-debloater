@@ -57,6 +57,7 @@ Download the latest `isoDebloater.ps1` from [here](https://github.com/itsNileshH
 -OnedriveRemove "yes"       # Remove OneDrive completely [Default: yes]
 -EDGERemove "yes"           # Remove Microsoft Edge browser [Default: yes]
 -AIRemove "yes"             # Remove AI Components [Default: yes]
+-RecallRemove "no"          # Disable Windows Recall only, keeping Copilot [Default: no]
 -TPMBypass "no"             # Bypass TPM & hardware checks [Default: no]
 -UserFoldersEnable "yes"    # Enable user folders in Explorer [Default: yes]
 -DriverIntegrate "no"       # Integrate drivers from the Drivers folder [Default: no]
@@ -87,6 +88,71 @@ Download the latest `isoDebloater.ps1` from [here](https://github.com/itsNileshH
 3. Options to customize which components to remove will be presented.
 4. The script will process the ISO according to the selections.
 5. A debloated ISO will be generated in the **same directory as the script**.
+
+## 🤖 Build in GitHub Actions
+
+This fork includes a [`Build debloated ISO`](.github/workflows/build-debloated-iso.yml)
+workflow that runs the whole process in CI and publishes the result as a
+downloadable artifact — no local Windows machine required.
+
+**How to run it:**
+
+1. Go to the repository's **Actions** tab.
+2. Select **Build debloated ISO** and click **Run workflow**.
+3. Choose the options (release, edition, language, architecture and the debloat
+   toggles) or keep the defaults, then start the run.
+
+**What it does:**
+
+- Resolves and downloads an **official** Microsoft Windows 11 ISO using
+  [Fido](https://github.com/pbatard/Fido) (the same tool Rufus uses), pinned to a
+  specific release and verified against a known SHA256.
+- Detects the Windows build number from the source image and names the output
+  accordingly (e.g. `windows11-26100.1742-debloated.iso`).
+- Runs `isoDebloaterScript.ps1` headlessly (`-noPrompt`) on a `windows-latest`
+  runner, which auto-downloads `oscdimg.exe`.
+- Uploads the debloated ISO (plus a `.sha256` checksum and the script log) as
+  workflow artifacts, retained for 7 days.
+- Generates a signed **build provenance attestation** for the ISO (see below).
+
+**Fixed debloat recipe** (edit the `Run ISO debloater` step to change it):
+
+| Option | Value | | Option | Value |
+| --- | --- | --- | --- | --- |
+| `useDISM` | yes | | `TPMBypass` | no |
+| `AppxRemove` | yes | | `UserFoldersEnable` | yes |
+| `CapabilitiesRemove` | yes | | `DriverIntegrate` | no |
+| `OnedriveRemove` | no | | `ESDConvert` (compress) | yes |
+| `EDGERemove` | no | | `useOscdimg` | yes |
+| `AIRemove` | no | | `RecallRemove` | yes |
+
+`AIRemove` is kept off (Copilot stays), while `RecallRemove` disables Windows
+Recall specifically. The Appx removal list also strips the M365 Companions
+(*Files & contacts*) app and the Widgets (`WebExperience`) package.
+
+Keeping this recipe fixed makes builds reproducible, which is what the
+provenance attestation vouches for.
+
+### Verifying the build provenance
+
+Every ISO produced by the workflow gets a [build provenance
+attestation](https://docs.github.com/actions/security-guides/using-artifact-attestations-to-establish-provenance-for-builds)
+signed via Sigstore. This lets anyone cryptographically prove the ISO was built
+by **this** workflow, from **this** repository, and hasn't been tampered with
+since. Verify a downloaded ISO with the GitHub CLI:
+
+```bash
+gh attestation verify windows11-<build>-debloated.iso --repo DevSecNinja/windows-iso-debloater
+```
+
+> [!NOTE]
+> Attestation proves *provenance* (that the ISO is the genuine, unmodified output
+> of this pipeline against the official Microsoft source), not that Windows
+> itself is free of every possible unwanted component.
+
+> [!NOTE]
+> Windows ISOs are large (~5–7 GB), so the run can take a while (ESD compression
+> is enabled and adds time) and the artifact download is sizeable.
 
 ## 🛠️ Advanced Customization
 
