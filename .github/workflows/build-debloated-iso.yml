@@ -83,22 +83,32 @@ jobs:
           }
           Write-Host "Autounattend.xml present at $autounattendPath"
 
-          # Install Windows ADK Deployment Tools (provides oscdimg.exe) if not already installed
+          # Install oscdimg.exe (from the Windows ADK Deployment Tools) if not already present.
+          # The hosted Windows Server 2025 runner cannot launch the 32-bit ADK web installer
+          # (adksetup.exe) — it fails with "This version of %1 is not compatible with the version
+          # of Windows you're running". Use the preinstalled Chocolatey instead: the
+          # 'windows-adk-oscdimg' package provides oscdimg.exe without running that bootstrapper.
+          # The debloater script looks for oscdimg.exe at the standard ADK path below, so make
+          # sure it ends up there regardless of where the package drops it.
           $oscdimg = 'C:\Program Files (x86)\Windows Kits\10\Assessment and Deployment Kit\Deployment Tools\amd64\Oscdimg\oscdimg.exe'
           if (-not (Test-Path $oscdimg)) {
-            $adkInstaller = Join-Path $env:RUNNER_TEMP 'adksetup.exe'
-            $adkUrl = 'https://go.microsoft.com/fwlink/?linkid=2250347'
-            Write-Host "Downloading Windows ADK installer..."
-            & curl.exe -L --fail --retry 5 --retry-delay 10 --retry-connrefused -o $adkInstaller $adkUrl
-            if ($LASTEXITCODE -ne 0 -or -not (Test-Path $adkInstaller)) {
-              throw "Failed to download ADK installer (curl exit code: $LASTEXITCODE)"
+            Write-Host "Installing oscdimg via Chocolatey (windows-adk-oscdimg)..."
+            & choco install windows-adk-oscdimg --yes --no-progress
+            if ($LASTEXITCODE -ne 0) {
+              throw "choco install windows-adk-oscdimg failed (exit code: $LASTEXITCODE)"
             }
-            Write-Host "Installing ADK Deployment Tools (quiet)..."
-            Start-Process -FilePath $adkInstaller `
-              -ArgumentList '/quiet /norestart /features OptionId.DeploymentTools' `
-              -Wait -NoNewWindow
             if (-not (Test-Path $oscdimg)) {
-              throw "oscdimg.exe not found after ADK install — expected at: $oscdimg"
+              # Fall back to locating oscdimg.exe (e.g. under the Chocolatey lib folder or PATH)
+              # and copying it to the path the debloater script expects.
+              $found = Get-Command oscdimg.exe -ErrorAction SilentlyContinue |
+                Select-Object -First 1 -ExpandProperty Source
+              if (-not $found) {
+                $found = Get-ChildItem -Path 'C:\ProgramData\chocolatey' -Filter oscdimg.exe -Recurse -ErrorAction SilentlyContinue |
+                  Select-Object -First 1 -ExpandProperty FullName
+              }
+              if (-not $found) { throw "oscdimg.exe not found after installing windows-adk-oscdimg." }
+              New-Item -ItemType Directory -Force -Path (Split-Path $oscdimg) | Out-Null
+              Copy-Item -Path $found -Destination $oscdimg -Force
             }
           }
           Write-Host "oscdimg.exe verified at $oscdimg"
