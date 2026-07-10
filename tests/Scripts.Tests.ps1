@@ -60,3 +60,28 @@ Describe 'Build pipeline (build-debloated-iso.yml)' {
         $workflowText | Should -Not -Match 'linkid=2250347'
     }
 }
+
+Describe 'GitHub Actions supply-chain hardening' {
+    BeforeDiscovery {
+        $repoRoot = Split-Path -Parent $PSScriptRoot
+        $workflowDir = Join-Path $repoRoot '.github/workflows'
+        $usesRefs = Get-ChildItem -Path $workflowDir -Filter '*.yml' | ForEach-Object {
+            $file = $_.Name
+            Get-Content -Path $_.FullName |
+                Where-Object { $_ -match '^\s*(-\s*)?uses:\s*\S' } |
+                ForEach-Object {
+                    # Strip everything up to and including "uses:" and any trailing comment.
+                    $ref = ($_ -replace '^.*?uses:\s*', '') -replace '\s*#.*$', ''
+                    @{ File = $file; Ref = $ref.Trim() }
+                }
+        }
+    }
+
+    # Third-party actions must be pinned to an immutable 40-character commit SHA so a
+    # retagged/hijacked release tag can't silently change what runs in CI.
+    It 'pins action to a full commit SHA: <Ref> (<File>)' -ForEach $usesRefs {
+        # Local actions referenced by path (./ or ../) are exempt.
+        if ($Ref -match '^\.{1,2}/') { return }
+        $Ref | Should -Match '@[0-9a-f]{40}$'
+    }
+}

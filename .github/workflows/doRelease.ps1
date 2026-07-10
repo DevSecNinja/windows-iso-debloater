@@ -24,6 +24,11 @@ param(
 $scriptUrl = "https://itsnileshhere.github.io/Windows-ISO-Debloater/isoDebloaterScript.ps1"
 $autounattendXmlUrl = "https://itsnileshhere.github.io/Windows-ISO-Debloater/autounattend.xml"
 
+# Fail closed on any error so a failed/partial download is never run elevated below.
+$ErrorActionPreference = "Stop"
+# Enforce TLS 1.2 so the download can't be silently downgraded on older hosts.
+[Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12
+
 $scriptDirectory = "$env:SystemDrive\scriptdir"
 
 if (-not (Test-Path -Path $scriptDirectory -PathType Container)) {
@@ -33,8 +38,13 @@ if (-not (Test-Path -Path $scriptDirectory -PathType Container)) {
 $scriptPath = Join-Path -Path $scriptDirectory -ChildPath "isoDebloaterScript.ps1"
 $XmlPath = Join-Path -Path $scriptDirectory -ChildPath "autounattend.xml"
 
-Invoke-WebRequest -Uri $scriptUrl -OutFile $scriptPath
-Invoke-WebRequest -Uri $autounattendXmlUrl -OutFile $XmlPath
+Invoke-WebRequest -Uri $scriptUrl -OutFile $scriptPath -UseBasicParsing
+Invoke-WebRequest -Uri $autounattendXmlUrl -OutFile $XmlPath -UseBasicParsing
+
+# Never launch a missing/empty script with ExecutionPolicy Bypass.
+if (-not (Test-Path -Path $scriptPath) -or (Get-Item $scriptPath).Length -eq 0) {
+    throw "Downloaded isoDebloaterScript.ps1 is missing or empty; aborting."
+}
 
 # Resolve relative paths
 if ($isoPath -and -not [System.IO.Path]::IsPathRooted($isoPath)) {
@@ -81,6 +91,11 @@ Exit
 $scriptUrl = "https://itsnileshhere.github.io/Windows-ISO-Debloater/isoDebloaterScript.ps1"
 $autounattendXmlUrl = "https://itsnileshhere.github.io/Windows-ISO-Debloater/autounattend.xml"
 
+# Fail closed on any error so a failed/partial download is never run elevated below.
+$ErrorActionPreference = "Stop"
+# Enforce TLS 1.2 so the download can't be silently downgraded on older hosts.
+[Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12
+
 $scriptDirectory = "$env:SystemDrive\scriptdir"
 
 if (-not (Test-Path -Path $scriptDirectory -PathType Container)) {
@@ -90,8 +105,13 @@ if (-not (Test-Path -Path $scriptDirectory -PathType Container)) {
 $scriptPath = Join-Path -Path $scriptDirectory -ChildPath "isoDebloaterScript.ps1"
 $XmlPath = Join-Path -Path $scriptDirectory -ChildPath "autounattend.xml"
 
-Invoke-WebRequest -Uri $scriptUrl -OutFile $scriptPath
-Invoke-WebRequest -Uri $autounattendXmlUrl -OutFile $XmlPath
+Invoke-WebRequest -Uri $scriptUrl -OutFile $scriptPath -UseBasicParsing
+Invoke-WebRequest -Uri $autounattendXmlUrl -OutFile $XmlPath -UseBasicParsing
+
+# Never launch a missing/empty script with ExecutionPolicy Bypass.
+if (-not (Test-Path -Path $scriptPath) -or (Get-Item $scriptPath).Length -eq 0) {
+    throw "Downloaded isoDebloaterScript.ps1 is missing or empty; aborting."
+}
 
 function Test-WindowsTerminalInstalled {
     $terminalPath = "$env:LocalAppData\Microsoft\WindowsApps\wt.exe"
