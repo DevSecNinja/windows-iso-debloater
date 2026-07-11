@@ -97,7 +97,7 @@ Describe 'Debloat data files' {
         # Flatten every package entry and registry op into per-item test cases.
         $packageEntries = foreach ($listName in $packages.PSObject.Properties.Name) {
             foreach ($entry in $packages.$listName) {
-                @{ List = $listName; Pattern = $entry.pattern; Description = $entry.description }
+                @{ List = $listName; Pattern = $entry.pattern; Description = $entry.description; Remove = $entry.remove }
             }
         }
         $registryOps = foreach ($section in $registry.sections) {
@@ -128,6 +128,10 @@ Describe 'Debloat data files' {
     # The project rule: every setting the tool changes must explain itself.
     It 'every package entry has a non-empty description (<List>: <Pattern>)' -ForEach $packageEntries {
         $Description | Should -Not -BeNullOrEmpty
+    }
+
+    It 'every package entry has a boolean remove flag (<List>: <Pattern>)' -ForEach $packageEntries {
+        $Remove | Should -BeOfType [bool]
     }
 
     It 'every registry op has a non-empty description (<Section>: <Key>)' -ForEach $registryOps {

@@ -160,10 +160,11 @@ gh attestation verify windows11-<build>-debloated.iso --repo DevSecNinja/windows
 
 The lists of components to remove live in **`data/packages.json`** — separated from
 the script logic so they can be reviewed and edited without touching code. Each
-entry carries a required human-readable `description` and an `enabled` flag:
+entry carries a required human-readable `description` and a `remove` flag
+(`true` = removed, `false` = kept):
 
 ```jsonc
-{ "pattern": "Microsoft.BingNews*", "description": "Bing News", "enabled": true }
+{ "pattern": "Microsoft.BingNews*", "description": "Bing News", "remove": true }
 ```
 
 - **`provisionedAppxPackages`** – Microsoft Store apps
@@ -171,7 +172,7 @@ entry carries a required human-readable `description` and an `enabled` flag:
 - **`windowsPackages`** – core Windows packages
 - **`edgeAppxPackages`** / **`aiAppxPackages`** – Edge and AI component packages
 
-To **whitelist** (keep) a package, set its `"enabled"` to `false` — no need to edit
+To **whitelist** (keep) a package, set its `"remove"` to `false` — no need to edit
 the script.
 
 ### Tweaks

@@ -87,7 +87,7 @@ Write-Host "`n*Important Notes: " -ForegroundColor Yellow
 Write-Host "  1. Some prompts will appear during the process."
 Write-Host "  2. Administrative privileges are required to run this script."
 Write-Host "  3. Review the script beforehand to understand its actions."
-Write-Host "  4. To whitelist a package, set its `"enabled`" to false in data/packages.json."
+Write-Host "  4. To whitelist a package, set its `"remove`" to false in data/packages.json."
 Write-Host "  5. Select the ISO to proceed."
 Start-Sleep -Milliseconds 800
 
@@ -206,11 +206,11 @@ function Import-DebloatData {
     catch { throw "Failed to parse data file '$Name': $($_.Exception.Message)" }
 }
 
-# Resolve the enabled patterns from a package-data list, expanding {langCode}.
-function Get-EnabledPatterns {
+# Resolve the patterns to remove from a package-data list, expanding {langCode}.
+function Get-RemovalPatterns {
     param([Parameter(Mandatory = $true)]$Entries, [string]$LangCode = "")
     foreach ($e in $Entries) {
-        if ($e.enabled) { $e.pattern -replace '\{langCode\}', $LangCode }
+        if ($e.remove) { $e.pattern -replace '\{langCode\}', $LangCode }
     }
 }
 
@@ -662,14 +662,14 @@ $DoESDConvert = Get-ParameterValue -ParameterValue $ESDConvert -DefaultValue $fa
 $DoUseOscdimg = Get-ParameterValue -ParameterValue $useOscdimg -DefaultValue $true -Question "Use Oscdimg for ISO creation?" -Description "Recommended: Oscdimg is more reliable"
 
 # Package removal lists live in data/packages.json (each entry has a required
-# description + an "enabled" flag). Whitelist a package by setting its "enabled"
+# description + a "remove" flag). Whitelist a package by setting its "remove"
 # to false there instead of commenting out lines in this script. Registry tweaks
 # live in data/registry.json.
 $PackageData = Import-DebloatData -Name 'packages.json'
 $RegistryData = Import-DebloatData -Name 'registry.json'
-$appxPatternsToRemove    = @(Get-EnabledPatterns -Entries $PackageData.provisionedAppxPackages -LangCode $langCode)
-$capabilitiesToRemove    = @(Get-EnabledPatterns -Entries $PackageData.capabilities -LangCode $langCode)
-$windowsPackagesToRemove = @(Get-EnabledPatterns -Entries $PackageData.windowsPackages -LangCode $langCode)
+$appxPatternsToRemove    = @(Get-RemovalPatterns -Entries $PackageData.provisionedAppxPackages -LangCode $langCode)
+$capabilitiesToRemove    = @(Get-RemovalPatterns -Entries $PackageData.capabilities -LangCode $langCode)
+$windowsPackagesToRemove = @(Get-RemovalPatterns -Entries $PackageData.windowsPackages -LangCode $langCode)
 
 function Remove-Packages {
     param( [string[]]$Patterns, [string]$SectionTitle, [string]$PackageType, [string]$MountPath, [int]$StartIndex = 1, [int]$TotalCount, [int]$StatusColumn )
@@ -812,7 +812,7 @@ if ($DoEDGERemove) {
     dism /image:"$installMountDir" /Remove-Edge 2>&1 | Write-Log
 
     # Edge Patterns (from data/packages.json)
-    $EDGEpatterns = @(Get-EnabledPatterns -Entries $PackageData.edgeAppxPackages)
+    $EDGEpatterns = @(Get-RemovalPatterns -Entries $PackageData.edgeAppxPackages)
 
     # Remove Edge Packages
     foreach ($pattern in $EDGEpatterns) {
@@ -906,7 +906,7 @@ if ($buildNumber -ge 22000) {
         Write-Log -msg "Removing AI components"
 
         # Remove AI Packages (from data/packages.json)
-        $AIpatterns = @(Get-EnabledPatterns -Entries $PackageData.aiAppxPackages)
+        $AIpatterns = @(Get-RemovalPatterns -Entries $PackageData.aiAppxPackages)
         Write-Host "  - Removing Provisioned AI packages..." -ForegroundColor DarkGray
         Write-Log -msg "Removing Provisioned AI packages"
         foreach ($pattern in $AIpatterns) {
