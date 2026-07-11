@@ -22,6 +22,9 @@ param(
     [ValidateSet("yes", "no")]$useOscdimg = ""
 )
 
+# Fail fast on uninitialized variables, invalid property/method access, etc.
+Set-StrictMode -Version Latest
+
 # If -noPrompt is used, ensure required parameters are provided
 if ($noPrompt) {
     $missing = @("isoPath","winEdition","outputISO") | Where-Object { [string]::IsNullOrWhiteSpace((Get-Variable $_).Value) }
@@ -96,13 +99,13 @@ $transcript = "$env:TEMP\transcript_$(Get-Random).txt"                          
 Start-Transcript $transcript -Append -ErrorAction SilentlyContinue 2>&1 | Out-Null
 
 # Get system information
-$osInfo = Get-WmiObject -Class Win32_OperatingSystem
+$osInfo = Get-CimInstance -ClassName Win32_OperatingSystem
 $logEntry = @"
 $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss') - Script started
 - Launched As: $((Get-CimInstance Win32_Process -Filter "ProcessId = $PID").CommandLine)
 - Windows Version: $($osInfo.Caption) $($osInfo.Version) (Build $($osInfo.BuildNumber))
 - System Architecture: $($osInfo.OSArchitecture)
-- Install Date: $([Management.ManagementDateTimeConverter]::ToDateTime($osInfo.InstallDate).ToString())
+- Install Date: $($osInfo.InstallDate.ToString())
 - System Language: $((Get-Culture).DisplayName)
 - Default Language: $((Get-UICulture).DisplayName)
 - Windows Directory: $($env:windir)`n
@@ -196,12 +199,12 @@ function Set-Ownership {
             $FullPath = [System.IO.Path]::GetFullPath($Path)
             if (-not (Test-Path -Path $FullPath)) { return $true }
             $IsFolder = (Get-Item $FullPath).PSIsContainer
+            $CurrentUser = [System.Security.Principal.WindowsIdentity]::GetCurrent().Name
 
             # Try ACL method
             try {
                 $Acl = Get-Acl $FullPath
                 $Acl.SetOwner([System.Security.Principal.NTAccount]"Administrators")
-                $CurrentUser = [System.Security.Principal.WindowsIdentity]::GetCurrent().Name
                 $AccessRule = New-Object System.Security.AccessControl.FileSystemAccessRule($CurrentUser, "FullControl", $(if ($IsFolder) {"ContainerInherit,ObjectInherit"} else {"None"}), "None", "Allow")
                 $Acl.SetAccessRule($AccessRule)
                 Set-Acl -Path $FullPath -AclObject $Acl
@@ -212,7 +215,7 @@ function Set-Ownership {
                             $ChildAcl.SetAccessRule((New-Object System.Security.AccessControl.FileSystemAccessRule($CurrentUser, "FullControl", "Allow")))
                             Set-Acl -Path $_.FullName -AclObject $ChildAcl
                         }
-                        catch {}
+                        catch { Write-Log -msg "Child ACL failed for '$($_.TargetObject)': $($_.Exception.Message)" }
                     }
                 }
                 Write-Log -msg "[ACL] Set ownership for: $FullPath"
@@ -252,7 +255,7 @@ function Set-Ownership {
                             Write-Log -msg "Set ownership for registry: $keyPath"
                         }
                     } else { Write-Log -msg "Unable to open reg-key: $keyPath" }
-                } catch {}
+                } catch { Write-Log -msg "Failed to set ownership for reg-key '$keyPath': $($_.Exception.Message)" }
             }
             return $true
         } catch { Write-Log -msg "Failed to own reg-key: $($_.Exception.Message)"; return $false }
@@ -310,7 +313,7 @@ function Test-InternetConnection {
                 $client.Close(); return $true
             }
             $client.Close()
-        } catch {}
+        } catch { Write-Log -msg "Connection attempt $attempt to ${hostname}:$port failed: $($_.Exception.Message)" }
         Write-Host "Internet connection not available, Trying in $retryDelay seconds..."
         Start-Sleep -Seconds $retryDelay
     }
@@ -1649,8 +1652,8 @@ try {
 
 Write-Log -msg "Checking required files"
 if ($outputISO) {
-    $ISOFileName = ($ISOFileName -replace '[<>:"/\\|?*\x00-\x1F\s]', '').Trim()
     $ISOFileName = [System.IO.Path]::GetFileNameWithoutExtension($outputISO)
+    $ISOFileName = ($ISOFileName -replace '[<>:"/\\|?*\x00-\x1F\s]', '').Trim()
 } else {
     do {
         $ISOFileName = Read-Host -Prompt "`nEnter the name for the ISO file (without extension)"
