@@ -55,7 +55,7 @@ Download the latest `isoDebloaterScript.ps1` from [here](https://github.com/DevS
 -AppxRemove "yes"           # Remove Microsoft Store apps [Default: yes]
 -CapabilitiesRemove "yes"   # Remove optional Windows features [Default: yes]
 -OnedriveRemove "yes"       # Remove OneDrive completely [Default: yes]
--EDGERemove "yes"           # Remove Microsoft Edge browser [Default: yes]
+-EdgeRemove "yes"           # Remove Microsoft Edge browser [Default: yes]
 -AIRemove "yes"             # Remove AI Components [Default: yes]
 -RecallRemove "no"          # Disable Windows Recall only, keeping Copilot [Default: no]
 -TPMBypass "no"             # Bypass TPM & hardware checks [Default: no]
@@ -72,10 +72,10 @@ Download the latest `isoDebloaterScript.ps1` from [here](https://github.com/DevS
 .\isoDebloaterScript.ps1 -noPrompt -isoPath "C:\path\to\windows.iso" -winEdition "Windows 11 Pro" -outputISO "Win11Debloat.iso"
 
 # Customize specific options:
-.\isoDebloaterScript.ps1 -isoPath "C:\path\to\windows.iso" -EDGERemove no -TPMBypass yes
+.\isoDebloaterScript.ps1 -isoPath "C:\path\to\windows.iso" -EdgeRemove no -TPMBypass yes
 
 # Create minimal Windows installation:
-.\isoDebloaterScript.ps1 -AppxRemove yes -CapabilitiesRemove yes -OnedriveRemove yes -EDGERemove yes -AIRemove yes -ESDConvert yes
+.\isoDebloaterScript.ps1 -AppxRemove yes -CapabilitiesRemove yes -OnedriveRemove yes -EdgeRemove yes -AIRemove yes -ESDConvert yes
 
 # Integrate Intel RAID/VMD drivers:
 .\isoDebloaterScript.ps1 -isoPath "C:\path\to\windows.iso" -DriverIntegrate yes
@@ -123,7 +123,7 @@ downloadable artifact — no local Windows machine required.
 | `AppxRemove` | yes | | `UserFoldersEnable` | yes |
 | `CapabilitiesRemove` | yes | | `DriverIntegrate` | no |
 | `OnedriveRemove` | no | | `ESDConvert` (compress) | yes |
-| `EDGERemove` | no | | `useOscdimg` | yes |
+| `EdgeRemove` | no | | `useOscdimg` | yes |
 | `AIRemove` | no | | `RecallRemove` | yes |
 
 `AIRemove` is kept off (Copilot stays), while `RecallRemove` disables Windows

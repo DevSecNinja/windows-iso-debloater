@@ -12,7 +12,7 @@ param(
     [ValidateSet("yes", "no")]$AppxRemove = "",
     [ValidateSet("yes", "no")]$CapabilitiesRemove = "",
     [ValidateSet("yes", "no")]$OnedriveRemove = "",
-    [ValidateSet("yes", "no")]$EDGERemove = "",
+    [ValidateSet("yes", "no")]$EdgeRemove = "",
     [ValidateSet("yes", "no")]$AIRemove = "",
     [ValidateSet("yes", "no")]$RecallRemove = "",
     [ValidateSet("yes", "no")]$TPMBypass = "",
@@ -652,7 +652,7 @@ Write-Host
 $DoAppxRemove = Get-ParameterValue -ParameterValue $AppxRemove -DefaultValue $true -Question "Remove unnecessary packages?" -Description "Recommended: Removes bloatware apps"
 $DoCapabilitiesRemove = Get-ParameterValue -ParameterValue $CapabilitiesRemove -DefaultValue $true -Question "Remove unnecessary features?" -Description "Recommended: Removes optional Windows features"
 $DoOnedriveRemove = Get-ParameterValue -ParameterValue $OnedriveRemove -DefaultValue $true -Question "Remove OneDrive?" -Description "Optional: Completely removes OneDrive"
-$DoEDGERemove = Get-ParameterValue -ParameterValue $EDGERemove -DefaultValue $true -Question "Remove Microsoft Edge?" -Description "Optional: Removes Edge components (Breaks Widgets)"
+$DoEdgeRemove = Get-ParameterValue -ParameterValue $EdgeRemove -DefaultValue $true -Question "Remove Microsoft Edge?" -Description "Optional: Removes Edge components (Breaks Widgets)"
 $DoAIRemove = Get-ParameterValue -ParameterValue $AIRemove -DefaultValue $true -Question "Remove AI Components?" -Description "Optional: Removes everything related to AI"
 $DoRecallRemove = Get-ParameterValue -ParameterValue $RecallRemove -DefaultValue $false -Question "Disable Recall?" -Description "Optional: Disables Windows Recall only (keeps Copilot and other AI)"
 $DoTPMBypass = Get-ParameterValue -ParameterValue $TPMBypass -DefaultValue $false -Question "Bypass TPM check?" -Description "Only if needed for older hardware"
@@ -801,10 +801,10 @@ if ($DoOnedriveRemove) {
     Write-Log -msg "OneDrive removal skipped"
 }
 
-# Remove EDGE
-if ($DoEDGERemove) {
-    Write-Host ("`n[INFO] Removing EDGE...") -ForegroundColor Cyan
-    Write-Log -msg "Removing EDGE"
+# Remove Edge
+if ($DoEdgeRemove) {
+    Write-Host ("`n[INFO] Removing Edge...") -ForegroundColor Cyan
+    Write-Log -msg "Removing Edge"
 
     # Remove Edge using DISM
     Write-Host "  - Executing DISM - Remove-Edge..." -ForegroundColor DarkGray
@@ -812,10 +812,10 @@ if ($DoEDGERemove) {
     dism /image:"$installMountDir" /Remove-Edge 2>&1 | Write-Log
 
     # Edge Patterns (from data/packages.json)
-    $EDGEpatterns = @(Get-RemovalPatterns -Entries $PackageData.edgeAppxPackages)
+    $EdgePatterns = @(Get-RemovalPatterns -Entries $PackageData.edgeAppxPackages)
 
     # Remove Edge Packages
-    foreach ($pattern in $EDGEpatterns) {
+    foreach ($pattern in $EdgePatterns) {
         $matchedPackages = Get-ProvisionedAppxPackage -Path $installMountDir |
         Where-Object { $_.PackageName -like $pattern }
         foreach ($package in $matchedPackages) {
@@ -832,7 +832,7 @@ if ($DoEDGERemove) {
 
     # Modifying reg keys
     Write-Host "  - Tweaking registry..." -ForegroundColor DarkGray
-    Write-Log -msg "Registry tweaks for EDGE"
+    Write-Log -msg "Registry tweaks for Edge"
     try {
         reg load HKLM\zSOFTWARE "$installMountDir\Windows\System32\config\SOFTWARE" 2>&1 | Write-Log
         reg load HKLM\zSYSTEM "$installMountDir\Windows\System32\config\SYSTEM" 2>&1 | Write-Log
@@ -867,9 +867,9 @@ if ($DoEDGERemove) {
         reg unload HKLM\zDEFAULT 2>&1 | Write-Log
     }
 
-    # Remove EDGE files
+    # Remove Edge files
     Write-Host "  - Cleaning up shortcuts..." -ForegroundColor DarkGray
-    Write-Log -msg "Removing EDGE related files"
+    Write-Log -msg "Removing Edge related files"
     Remove-Item -Path "$installMountDir\Program Files\Microsoft\Edge" -Recurse -Force 2>&1 | Write-Log
     Remove-Item -Path "$installMountDir\Program Files\Microsoft\EdgeCore" -Recurse -Force 2>&1 | Write-Log
     Remove-Item -Path "$installMountDir\Program Files\Microsoft\EdgeUpdate" -Recurse -Force 2>&1 | Write-Log
@@ -885,15 +885,15 @@ if ($DoEDGERemove) {
     Set-OwnAndRemove -Path (Join-Path -Path $installMountDir -ChildPath 'Windows\System32\Microsoft-Edge-WebView') | Out-Null
     # Get-Item (Join-Path -Path $installMountDir -ChildPath 'Windows\SystemApps\Microsoft.Win32WebViewHost*') -ErrorAction SilentlyContinue | ForEach-Object { Set-OwnAndRemove -Path $_.FullName | Out-Null }
 
-    # Removing EDGE-Task
+    # Removing Edge-Task
     Get-ChildItem -Path "$installMountDir\Windows\System32\Tasks\MicrosoftEdge*" | Where-Object { $_ } | ForEach-Object { Set-OwnAndRemove -Path $_ } 2>&1 | Write-Log
 
-    # For Windows 10 (Legacy EDGE)
+    # For Windows 10 (Legacy Edge)
     if ($buildNumber -lt 22000) {
         Get-ChildItem -Path "$installMountDir\Windows\SystemApps\Microsoft.MicrosoftEdge*" | Where-Object { $_ } | ForEach-Object { Set-OwnAndRemove -Path $_ } 2>&1 | Write-Log
     }
 
-    Write-Host ("[OK] EDGE has been removed") -ForegroundColor Green
+    Write-Host ("[OK] Edge has been removed") -ForegroundColor Green
     Write-Log -msg "Microsoft Edge removal completed"
 } else {
     Write-Log -msg "Edge removal cancelled"
