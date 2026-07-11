@@ -18,10 +18,11 @@ on:
         default: "English International"
         type: string
       arch:
-        description: "Architecture"
-        default: "x64"
+        description: "Architecture(s) to build"
+        default: "both"
         type: choice
         options:
+          - both
           - x64
           - arm64
       win_edition:
@@ -30,9 +31,35 @@ on:
         type: string
 
 jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set.outputs.matrix }}
+    steps:
+      - name: Compute build matrix
+        id: set
+        shell: bash
+        env:
+          ARCH: ${{ inputs.arch }}
+        run: |
+          x64='{"arch":"x64","runner":"windows-latest"}'
+          arm='{"arch":"arm64","runner":"windows-11-arm"}'
+          case "${ARCH:-both}" in
+            x64)   inc="[$x64]" ;;
+            arm64) inc="[$arm]" ;;
+            *)     inc="[$x64,$arm]" ;;
+          esac
+          echo "matrix={\"include\":$inc}" >> "$GITHUB_OUTPUT"
+
   build-iso:
-    runs-on: windows-latest
+    needs: setup
+    name: build-iso (${{ matrix.arch }})
+    runs-on: ${{ matrix.runner }}
     timeout-minutes: 240
+
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.setup.outputs.matrix) }}
 
     permissions:
       contents: read
@@ -118,7 +145,7 @@ jobs:
           REL: ${{ inputs.windows_release }}
           ED: ${{ inputs.fido_edition }}
           LANG: ${{ inputs.language }}
-          ARCH: ${{ inputs.arch }}
+          ARCH: ${{ matrix.arch }}
         run: |
           $ErrorActionPreference = 'Stop'
           $fidoArgs = @{ Win = '11'; GetUrl = $true }
@@ -158,6 +185,8 @@ jobs:
       - name: Detect Windows build number
         id: meta
         shell: pwsh
+        env:
+          ARCH: ${{ matrix.arch }}
         run: |
           $ErrorActionPreference = 'Stop'
           $isoPath = "$env:RUNNER_TEMP\windows11-source.iso"
@@ -174,7 +203,7 @@ jobs:
           Write-Host "Image version: $ver"
           $build = if ($ver -match '^10\.0\.(\d+\.\d+)$') { $matches[1] } else { ($ver -replace '[^0-9.]', '') }
           if (-not $build) { throw "Could not determine Windows build number from version '$ver'" }
-          $basename = "windows11-$build-debloated"
+          $basename = "windows11-$build-$env:ARCH-debloated"
           Write-Host "Build number: $build"
           "build=$build"       | Out-File -FilePath $env:GITHUB_OUTPUT -Append
           "basename=$basename" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
@@ -246,7 +275,7 @@ jobs:
       - name: Upload debloated ISO
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02  # v4.6.2
         with:
-          name: windows11-${{ steps.meta.outputs.build }}-debloated-iso
+          name: windows11-${{ steps.meta.outputs.build }}-${{ matrix.arch }}-debloated-iso
           path: |
             ${{ steps.output.outputs.iso_path }}
             ${{ steps.output.outputs.iso_path }}.sha256
@@ -258,7 +287,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02  # v4.6.2
         with:
-          name: debloater-log
+          name: debloater-log-${{ matrix.arch }}
           path: ${{ github.workspace }}/script_log.txt
           retention-days: 7
           if-no-files-found: ignore
