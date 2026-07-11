@@ -1,0 +1,427 @@
+{
+  "provisionedAppxPackages": [
+    {
+      "pattern": "Microsoft.Microsoft3DViewer*",
+      "description": "3DViewer",
+      "enabled": true
+    },
+    {
+      "pattern": "Microsoft.WindowsAlarms*",
+      "description": "Alarms",
+      "enabled": true
+    },
+    {
+      "pattern": "Microsoft.BingNews*",
+      "description": "Bing News",
+      "enabled": true
+    },
+    {
+      "pattern": "Microsoft.BingSearch*",
+      "description": "Bing Search",
+      "enabled": true
+    },
+    {
+      "pattern": "Microsoft.BingWeather*",
+      "description": "Bing Weather (Removing Breaks Widgets)",
+      "enabled": true
+    },
+    {
+      "pattern": "Windows.CBSPreview*",
+      "description": "CBS Preview",
+      "enabled": true
+    },
+    {
+      "pattern": "Clipchamp.Clipchamp*",
+      "description": "Clipchamp",
+      "enabled": true
+    },
+    {
+      "pattern": "Microsoft.549981C3F5F10*",
+      "description": "Cortana",
+      "enabled": true
+    },
+    {
+      "pattern": "MicrosoftWindows.CrossDevice*",
+      "description": "CrossDevice",
+      "enabled": true
+    },
+    {
+      "pattern": "MicrosoftWindows.Client.WebExperience*",
+      "description": "Widgets (WebExperience)",
+      "enabled": true
+    },
+    {
+      "pattern": "Microsoft.Windows.DevHome*",
+      "description": "DevHome",
+      "enabled": true
+    },
+    {
+      "pattern": "MicrosoftCorporationII.MicrosoftFamily*",
+      "description": "Family",
+      "enabled": true
+    },
+    {
+      "pattern": "Microsoft.WindowsFeedbackHub*",
+      "description": "FeedbackHub",
+      "enabled": true
+    },
+    {
+      "pattern": "Microsoft.GetHelp*",
+      "description": "GetHelp",
+      "enabled": true
+    },
+    {
+      "pattern": "Microsoft.Getstarted*",
+      "description": "GetStarted",
+      "enabled": true
+    },
+    {
+      "pattern": "Microsoft.WindowsCommunicationsapps*",
+      "description": "Mail",
+      "enabled": true
+    },
+    {
+      "pattern": "Microsoft.WindowsMaps*",
+      "description": "Maps",
+      "enabled": true
+    },
+    {
+      "pattern": "Microsoft.MixedReality.Portal*",
+      "description": "MixedReality",
+      "enabled": true
+    },
+    {
+      "pattern": "Microsoft.ZuneMusic*",
+      "description": "Music",
+      "enabled": true
+    },
+    {
+      "pattern": "Microsoft.MicrosoftOfficeHub*",
+      "description": "OfficeHub",
+      "enabled": true
+    },
+    {
+      "pattern": "Microsoft.M365Companions*",
+      "description": "M365 Companions (Files & contacts app)",
+      "enabled": true
+    },
+    {
+      "pattern": "Microsoft.Office.OneNote*",
+      "description": "OneNote",
+      "enabled": true
+    },
+    {
+      "pattern": "Microsoft.OutlookForWindows*",
+      "description": "Outlook",
+      "enabled": true
+    },
+    {
+      "pattern": "Microsoft.MSPaint*",
+      "description": "Paint3D(Windows10)",
+      "enabled": true
+    },
+    {
+      "pattern": "Microsoft.People*",
+      "description": "People",
+      "enabled": true
+    },
+    {
+      "pattern": "Microsoft.Windows.PeopleExperienceHost*",
+      "description": "PeopleExperienceHost",
+      "enabled": true
+    },
+    {
+      "pattern": "Microsoft.YourPhone*",
+      "description": "Phone",
+      "enabled": true
+    },
+    {
+      "pattern": "Microsoft.PowerAutomateDesktop*",
+      "description": "PowerAutomate",
+      "enabled": true
+    },
+    {
+      "pattern": "MicrosoftCorporationII.QuickAssist*",
+      "description": "QuickAssist",
+      "enabled": true
+    },
+    {
+      "pattern": "Microsoft.SkypeApp*",
+      "description": "Skype",
+      "enabled": true
+    },
+    {
+      "pattern": "Microsoft.MicrosoftStickyNotes*",
+      "description": "Sticky Notes",
+      "enabled": true
+    },
+    {
+      "pattern": "Microsoft.MicrosoftSolitaireCollection*",
+      "description": "SolitaireCollection",
+      "enabled": true
+    },
+    {
+      "pattern": "Microsoft.WindowsSoundRecorder*",
+      "description": "SoundRecorder",
+      "enabled": false
+    },
+    {
+      "pattern": "MicrosoftTeams*",
+      "description": "Teams_old",
+      "enabled": true
+    },
+    {
+      "pattern": "MSTeams*",
+      "description": "Teams",
+      "enabled": true
+    },
+    {
+      "pattern": "Microsoft.Windows.Teams*",
+      "description": "Teams",
+      "enabled": true
+    },
+    {
+      "pattern": "Microsoft.Todos*",
+      "description": "Todos",
+      "enabled": true
+    },
+    {
+      "pattern": "Microsoft.ZuneVideo*",
+      "description": "Video",
+      "enabled": true
+    },
+    {
+      "pattern": "Microsoft.Wallet*",
+      "description": "Wallet",
+      "enabled": true
+    },
+    {
+      "pattern": "Microsoft.GamingApp*",
+      "description": "Xbox",
+      "enabled": true
+    },
+    {
+      "pattern": "Microsoft.XboxApp*",
+      "description": "Xbox(Win10)",
+      "enabled": true
+    },
+    {
+      "pattern": "Microsoft.XboxGameOverlay*",
+      "description": "XboxGameOverlay",
+      "enabled": true
+    },
+    {
+      "pattern": "Microsoft.XboxGamingOverlay*",
+      "description": "XboxGamingOverlay",
+      "enabled": true
+    },
+    {
+      "pattern": "Microsoft.XboxIdentityProvider*",
+      "description": "Xbox Identity Provider (Removing Breaks some Xbox Games)",
+      "enabled": false
+    },
+    {
+      "pattern": "Microsoft.XboxSpeechToTextOverlay*",
+      "description": "XboxSpeechToTextOverlay",
+      "enabled": true
+    },
+    {
+      "pattern": "Microsoft.Xbox.TCUI*",
+      "description": "XboxTitleCallableUI",
+      "enabled": true
+    },
+    {
+      "pattern": "Microsoft.SecHealthUI*",
+      "description": "Windows Security (Caution)",
+      "enabled": false
+    }
+  ],
+  "capabilities": [
+    {
+      "pattern": "Browser.InternetExplorer*",
+      "description": "InternetExplorer",
+      "enabled": true
+    },
+    {
+      "pattern": "Internet-Explorer*",
+      "description": "Internet-Explorer",
+      "enabled": true
+    },
+    {
+      "pattern": "App.StepsRecorder*",
+      "description": "StepsRecorder",
+      "enabled": true
+    },
+    {
+      "pattern": "Language.Handwriting~~~{langCode}*",
+      "description": "Handwriting~~~{langCode}",
+      "enabled": true
+    },
+    {
+      "pattern": "Language.OCR~~~{langCode}*",
+      "description": "OCR~~~{langCode}",
+      "enabled": true
+    },
+    {
+      "pattern": "Language.Speech~~~{langCode}*",
+      "description": "Speech~~~{langCode}",
+      "enabled": true
+    },
+    {
+      "pattern": "Language.TextToSpeech~~~{langCode}*",
+      "description": "TextToSpeech~~~{langCode}",
+      "enabled": true
+    },
+    {
+      "pattern": "Microsoft.Windows.WordPad*",
+      "description": "WordPad",
+      "enabled": true
+    },
+    {
+      "pattern": "MathRecognizer*",
+      "description": "MathRecognizer",
+      "enabled": true
+    },
+    {
+      "pattern": "Microsoft.Windows.PowerShell.ISE*",
+      "description": "ISE",
+      "enabled": true
+    },
+    {
+      "pattern": "Hello.Face*",
+      "description": "Removing Breaks Windows-Hello",
+      "enabled": false
+    },
+    {
+      "pattern": "Media.WindowsMediaPlayer*",
+      "description": "WindowsMediaPlayer",
+      "enabled": true
+    }
+  ],
+  "windowsPackages": [
+    {
+      "pattern": "Microsoft-Windows-InternetExplorer-Optional-Package*",
+      "description": "Microsoft-Windows-InternetExplorer-Optional-Package",
+      "enabled": true
+    },
+    {
+      "pattern": "Microsoft-Windows-LanguageFeatures-Handwriting-{langCode}-Package*",
+      "description": "Microsoft-Windows-LanguageFeatures-Handwriting-{langCode}-Package",
+      "enabled": true
+    },
+    {
+      "pattern": "Microsoft-Windows-LanguageFeatures-OCR-{langCode}-Package*",
+      "description": "Microsoft-Windows-LanguageFeatures-OCR-{langCode}-Package",
+      "enabled": true
+    },
+    {
+      "pattern": "Microsoft-Windows-LanguageFeatures-Speech-{langCode}-Package*",
+      "description": "Microsoft-Windows-LanguageFeatures-Speech-{langCode}-Package",
+      "enabled": true
+    },
+    {
+      "pattern": "Microsoft-Windows-LanguageFeatures-TextToSpeech-{langCode}-Package*",
+      "description": "Microsoft-Windows-LanguageFeatures-TextToSpeech-{langCode}-Package",
+      "enabled": true
+    },
+    {
+      "pattern": "Microsoft-Windows-Wallpaper-Content-Extended-FoD-Package*",
+      "description": "Microsoft-Windows-Wallpaper-Content-Extended-FoD-Package",
+      "enabled": true
+    },
+    {
+      "pattern": "Microsoft-Windows-WordPad-FoD-Package*",
+      "description": "Microsoft-Windows-WordPad-FoD-Package",
+      "enabled": true
+    },
+    {
+      "pattern": "Microsoft-Windows-MediaPlayer-Package*",
+      "description": "Microsoft-Windows-MediaPlayer-Package",
+      "enabled": true
+    },
+    {
+      "pattern": "Microsoft-Windows-TabletPCMath-Package*",
+      "description": "Microsoft-Windows-TabletPCMath-Package",
+      "enabled": true
+    },
+    {
+      "pattern": "Microsoft-Windows-Hello-Face-Package",
+      "description": "Removing Breaks Windows-Hello",
+      "enabled": false
+    },
+    {
+      "pattern": "Microsoft-Windows-StepsRecorder-Package*",
+      "description": "Microsoft-Windows-StepsRecorder-Package",
+      "enabled": true
+    }
+  ],
+  "edgeAppxPackages": [
+    {
+      "pattern": "Microsoft.MicrosoftEdge.Stable*",
+      "description": "Stable",
+      "enabled": true
+    },
+    {
+      "pattern": "Microsoft.MicrosoftEdgeDevToolsClient*",
+      "description": "MicrosoftEdgeDevToolsClient",
+      "enabled": true
+    },
+    {
+      "pattern": "Microsoft.Win32WebViewHost*",
+      "description": "Win32WebViewHost",
+      "enabled": true
+    },
+    {
+      "pattern": "MicrosoftWindows.Client.WebExperience*",
+      "description": "Removing Breaks Widgets",
+      "enabled": true
+    }
+  ],
+  "aiAppxPackages": [
+    {
+      "pattern": "Microsoft.Windows.Copilot*",
+      "description": "Copilot",
+      "enabled": true
+    },
+    {
+      "pattern": "Microsoft.Copilot*",
+      "description": "Copilot",
+      "enabled": true
+    },
+    {
+      "pattern": "MicrosoftWindows.Client.AIX*",
+      "description": "AIX",
+      "enabled": true
+    },
+    {
+      "pattern": "MicrosoftWindows.Client.CoPilot*",
+      "description": "CoPilot",
+      "enabled": true
+    },
+    {
+      "pattern": "MicrosoftWindows.Client.CoreAI*",
+      "description": "CoreAI",
+      "enabled": true
+    },
+    {
+      "pattern": "Microsoft.Windows.Ai.Copilot.Provider*",
+      "description": "Provider",
+      "enabled": true
+    },
+    {
+      "pattern": "Microsoft.Edge.GameAssist*",
+      "description": "GameAssist",
+      "enabled": true
+    },
+    {
+      "pattern": "Microsoft.Office.ActionsServer*",
+      "description": "ActionsServer",
+      "enabled": true
+    },
+    {
+      "pattern": "Microsoft.WritingAssistant*",
+      "description": "WritingAssistant",
+      "enabled": true
+    }
+  ]
+}

@@ -85,3 +85,75 @@ Describe 'GitHub Actions supply-chain hardening' {
         $Ref | Should -Match '@[0-9a-f]{40}$'
     }
 }
+
+Describe 'Debloat data files' {
+    BeforeDiscovery {
+        $repoRoot = Split-Path -Parent $PSScriptRoot
+        $dataDir = Join-Path $repoRoot 'data'
+
+        $packages = Get-Content (Join-Path $dataDir 'packages.json') -Raw | ConvertFrom-Json
+        $registry = Get-Content (Join-Path $dataDir 'registry.json') -Raw | ConvertFrom-Json
+
+        # Flatten every package entry and registry op into per-item test cases.
+        $packageEntries = foreach ($listName in $packages.PSObject.Properties.Name) {
+            foreach ($entry in $packages.$listName) {
+                @{ List = $listName; Pattern = $entry.pattern; Description = $entry.description }
+            }
+        }
+        $registryOps = foreach ($section in $registry.sections) {
+            foreach ($op in $section.ops) {
+                @{ Section = $section.name; Key = $op.key; Action = $op.action; Description = $op.description }
+            }
+        }
+    }
+
+    BeforeAll {
+        $repoRoot = Split-Path -Parent $PSScriptRoot
+        $dataDir = Join-Path $repoRoot 'data'
+        $packages = Get-Content (Join-Path $dataDir 'packages.json') -Raw | ConvertFrom-Json
+        $registry = Get-Content (Join-Path $dataDir 'registry.json') -Raw | ConvertFrom-Json
+    }
+
+    It 'packages.json is valid JSON with the expected lists' {
+        foreach ($name in 'provisionedAppxPackages', 'capabilities', 'windowsPackages', 'edgeAppxPackages', 'aiAppxPackages') {
+            $packages.PSObject.Properties.Name | Should -Contain $name
+        }
+    }
+
+    It 'registry.json contains all 219 extracted operations' {
+        $count = ($registry.sections | ForEach-Object { $_.ops.Count } | Measure-Object -Sum).Sum
+        $count | Should -Be 219
+    }
+
+    # The project rule: every setting the tool changes must explain itself.
+    It 'every package entry has a non-empty description (<List>: <Pattern>)' -ForEach $packageEntries {
+        $Description | Should -Not -BeNullOrEmpty
+    }
+
+    It 'every registry op has a non-empty description (<Section>: <Key>)' -ForEach $registryOps {
+        $Description | Should -Not -BeNullOrEmpty
+    }
+
+    It 'registry ops are limited to add/delete actions (<Section>: <Key>)' -ForEach $registryOps {
+        $Action | Should -BeIn @('add', 'delete')
+    }
+}
+
+Describe 'isoDebloaterScript.ps1 is data-driven' {
+    BeforeAll {
+        $repoRoot = Split-Path -Parent $PSScriptRoot
+        $scriptText = Get-Content (Join-Path $repoRoot 'isoDebloaterScript.ps1') -Raw
+    }
+
+    It 'loads the external data files' {
+        $scriptText | Should -Match "Import-DebloatData -Name 'packages\.json'"
+        $scriptText | Should -Match "Import-DebloatData -Name 'registry\.json'"
+    }
+
+    It 'no longer hardcodes static registry operations inline' {
+        # Only dynamic ($variable) reg writes and reg load/unload may remain; the
+        # literal HKLM\z* / HKLM\x* add/delete operations now live in registry.json.
+        $inline = [regex]::Matches($scriptText, '(?m)^\s*reg (add|delete) "HKLM\\[zx]')
+        $inline.Count | Should -Be 0
+    }
+}

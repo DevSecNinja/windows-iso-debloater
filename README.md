@@ -158,20 +158,43 @@ gh attestation verify windows11-<build>-debloated.iso --repo DevSecNinja/windows
 
 ### Packages & Features
 
-Components to be removed can be customized by editing the script:
+The lists of components to remove live in **`data/packages.json`** — separated from
+the script logic so they can be reviewed and edited without touching code. Each
+entry carries a required human-readable `description` and an `enabled` flag:
 
-- **AppX Packages**: Modify the `$appxPatternsToRemove` array to include/exclude Microsoft Store apps
-- **Windows Capabilities**: Edit the `$capabilitiesToRemove` array to manage optional Windows features
-- **Windows Packages**: Adjust the `$windowsPackagesToRemove` array to control core Windows components
+```jsonc
+{ "pattern": "Microsoft.BingNews*", "description": "Bing News", "enabled": true }
+```
+
+- **`provisionedAppxPackages`** – Microsoft Store apps
+- **`capabilities`** – optional Windows features (`{langCode}` is expanded at runtime)
+- **`windowsPackages`** – core Windows packages
+- **`edgeAppxPackages`** / **`aiAppxPackages`** – Edge and AI component packages
+
+To **whitelist** (keep) a package, set its `"enabled"` to `false` — no need to edit
+the script.
 
 ### Tweaks
 
-The script includes optimization tweaks to:
+The registry tweaks live in **`data/registry.json`**, grouped into named sections
+that mirror the script's steps. Every operation records what it changes:
+
+```jsonc
+{ "description": "Set the Windows diagnostic data (telemetry) level to Security/off [Verified] https://learn.microsoft.com/en-us/windows/privacy/configure-windows-diagnostic-data-in-your-organization",
+  "action": "add", "key": "HKLM\\zSOFTWARE\\Policies\\Microsoft\\Windows\\DataCollection",
+  "name": "AllowTelemetry", "type": "REG_DWORD", "data": "0" }
+```
+
+Descriptions confirmed against official documentation are postfixed with
+`[Verified]` and the source link. These tweaks:
 - Improve system performance
 - Enhance privacy settings
 - Disable telemetry and data collection
 - Remove unnecessary UI elements
 - Remove AI components completely
+
+> Both data files are downloaded automatically from this repository if they are
+> not present next to the script, so the standalone script keeps working on its own.
 
 ## ⚙️ Technical Details
 

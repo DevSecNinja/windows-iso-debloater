@@ -1,0 +1,1735 @@
+{
+  "sections": [
+    {
+      "name": "edge",
+      "ops": [
+        {
+          "description": "Configure EdgeUpdate",
+          "action": "delete",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\EdgeUpdate"
+        },
+        {
+          "description": "Always unload registry hives regardless of errors",
+          "action": "delete",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Microsoft Edge"
+        },
+        {
+          "description": "Always unload registry hives regardless of errors",
+          "action": "delete",
+          "key": "HKLM\\zDEFAULT\\Software\\Microsoft\\EdgeUpdate"
+        },
+        {
+          "description": "Always unload registry hives regardless of errors",
+          "action": "delete",
+          "key": "HKLM\\zNTUSER\\Software\\Microsoft\\EdgeUpdate"
+        },
+        {
+          "description": "Always unload registry hives regardless of errors",
+          "action": "delete",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Active Setup\\Installed Components\\{9459C573-B17A-45AE-9F64-1857B5D58CEE}"
+        },
+        {
+          "description": "Always unload registry hives regardless of errors",
+          "action": "delete",
+          "key": "HKLM\\zSOFTWARE\\WOW6432Node\\Microsoft\\Edge"
+        },
+        {
+          "description": "Always unload registry hives regardless of errors",
+          "action": "delete",
+          "key": "HKLM\\zSOFTWARE\\WOW6432Node\\Microsoft\\EdgeUpdate"
+        },
+        {
+          "description": "Configure edgeupdate",
+          "action": "delete",
+          "key": "HKLM\\zSYSTEM\\CurrentControlSet\\Services\\edgeupdate"
+        },
+        {
+          "description": "Remove EDGE files",
+          "action": "delete",
+          "key": "HKLM\\zSYSTEM\\ControlSet001\\Services\\edgeupdate"
+        },
+        {
+          "description": "Remove EDGE files",
+          "action": "delete",
+          "key": "HKLM\\zSYSTEM\\CurrentControlSet\\Services\\edgeupdatem"
+        },
+        {
+          "description": "Remove EDGE files",
+          "action": "delete",
+          "key": "HKLM\\zSYSTEM\\ControlSet001\\Services\\edgeupdatem"
+        },
+        {
+          "description": "Remove EDGE files",
+          "action": "delete",
+          "key": "HKLM\\zSOFTWARE\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Microsoft Edge"
+        },
+        {
+          "description": "Remove EDGE files",
+          "action": "delete",
+          "key": "HKLM\\zSOFTWARE\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Microsoft Edge Update"
+        },
+        {
+          "description": "Remove EDGE files",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\MicrosoftEdge\\Main",
+          "name": "AllowPrelaunch",
+          "type": "REG_DWORD",
+          "data": "1"
+        },
+        {
+          "description": "Configure AllowPrelaunch",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Policies\\Microsoft\\MicrosoftEdge\\Main",
+          "name": "AllowPrelaunch",
+          "type": "REG_DWORD",
+          "data": "1"
+        },
+        {
+          "description": "Configure AllowPrelaunch",
+          "action": "add",
+          "key": "HKLM\\zNTUSER\\Software\\Microsoft\\MicrosoftEdge\\Main",
+          "name": "AllowPrelaunch",
+          "type": "REG_DWORD",
+          "data": "1"
+        },
+        {
+          "description": "Configure AllowPrelaunch",
+          "action": "add",
+          "key": "HKLM\\zNTUSER\\Software\\Policies\\Microsoft\\MicrosoftEdge\\Main",
+          "name": "AllowPrelaunch",
+          "type": "REG_DWORD",
+          "data": "1"
+        },
+        {
+          "description": "Configure AllowTabPreloading",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\MicrosoftEdge\\TabPreloader",
+          "name": "AllowTabPreloading",
+          "type": "REG_DWORD",
+          "data": "1"
+        },
+        {
+          "description": "Configure AllowTabPreloading",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Policies\\Microsoft\\MicrosoftEdge\\TabPreloader",
+          "name": "AllowTabPreloading",
+          "type": "REG_DWORD",
+          "data": "1"
+        },
+        {
+          "description": "Configure AllowTabPreloading",
+          "action": "add",
+          "key": "HKLM\\zNTUSER\\Software\\Microsoft\\MicrosoftEdge\\TabPreloader",
+          "name": "AllowTabPreloading",
+          "type": "REG_DWORD",
+          "data": "1"
+        },
+        {
+          "description": "Configure AllowTabPreloading",
+          "action": "add",
+          "key": "HKLM\\zNTUSER\\Software\\Policies\\Microsoft\\MicrosoftEdge\\TabPreloader",
+          "name": "AllowTabPreloading",
+          "type": "REG_DWORD",
+          "data": "1"
+        },
+        {
+          "description": "Configure UpdateDefault",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Policies\\Microsoft\\EdgeUpdate",
+          "name": "UpdateDefault",
+          "type": "REG_DWORD",
+          "data": "0"
+        }
+      ]
+    },
+    {
+      "name": "ai",
+      "ops": [
+        {
+          "description": "Disable Copilot in Microsoft Office apps",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Policies\\Microsoft\\Windows\\Explorer",
+          "name": "DisableSearchBoxSuggestions",
+          "type": "REG_DWORD",
+          "data": "1"
+        },
+        {
+          "description": "Disable Copilot and Recall system-wide",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Policies\\WindowsNotepad",
+          "name": "DisableAIFeatures",
+          "type": "REG_DWORD",
+          "data": "1"
+        },
+        {
+          "description": "Disable Copilot and Recall system-wide",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Paint",
+          "name": "DisableCocreator",
+          "type": "REG_DWORD",
+          "data": "1"
+        },
+        {
+          "description": "Disable Copilot and Recall system-wide",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Paint",
+          "name": "DisableImageCreator",
+          "type": "REG_DWORD",
+          "data": "1"
+        },
+        {
+          "description": "Disable Copilot and Recall system-wide",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Paint",
+          "name": "DisableGenerativeFill",
+          "type": "REG_DWORD",
+          "data": "1"
+        },
+        {
+          "description": "Disable Copilot and Recall system-wide",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Paint",
+          "name": "DisableGenerativeErase",
+          "type": "REG_DWORD",
+          "data": "1"
+        },
+        {
+          "description": "Configure DisableRemoveBackground",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Paint",
+          "name": "DisableRemoveBackground",
+          "type": "REG_DWORD",
+          "data": "1"
+        },
+        {
+          "description": "Disable Copilot and Recall for New Users",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Policies\\Microsoft\\Windows\\AppPrivacy",
+          "name": "LetAppsAccessSystemAIModels",
+          "type": "REG_DWORD",
+          "data": "2"
+        },
+        {
+          "description": "Disable Copilot and Recall for New Users",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Policies\\Microsoft\\Windows\\AppPrivacy",
+          "name": "LetAppsAccessGenerativeAI",
+          "type": "REG_DWORD",
+          "data": "2"
+        },
+        {
+          "description": "Disable Copilot and Recall for New Users",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Windows\\CurrentVersion\\CapabilityAccessManager\\ConsentStore\\generativeAI",
+          "name": "Value",
+          "type": "REG_SZ",
+          "data": "Deny"
+        },
+        {
+          "description": "Disable Copilot and Recall for New Users",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Windows\\CurrentVersion\\CapabilityAccessManager\\ConsentStore\\systemAIModels",
+          "name": "Value",
+          "type": "REG_SZ",
+          "data": "Deny"
+        },
+        {
+          "description": "Configure HubsSidebarEnabled",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Policies\\Microsoft\\Edge",
+          "name": "HubsSidebarEnabled",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "Configure CopilotPageContext",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Policies\\Microsoft\\Edge",
+          "name": "CopilotPageContext",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "Configure CopilotCDPPageContext",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Policies\\Microsoft\\Edge",
+          "name": "CopilotCDPPageContext",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "Configure EdgeHistoryAISearchEnabled",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Policies\\Microsoft\\Edge",
+          "name": "EdgeHistoryAISearchEnabled",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "Configure BuiltInAIAPIsEnabled",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Policies\\Microsoft\\Edge",
+          "name": "BuiltInAIAPIsEnabled",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "Remove AI Tasks",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Policies\\Microsoft\\Edge",
+          "name": "AIGenThemesEnabled",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "Remove AI Tasks",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Policies\\Microsoft\\Edge",
+          "name": "ShareBrowsingHistoryWithCopilotSearchAllowed",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "Turn off Click to Do [Verified] https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-windowsai",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Policies\\Microsoft\\Windows\\WindowsAI",
+          "name": "DisableClickToDo",
+          "type": "REG_DWORD",
+          "data": "1"
+        },
+        {
+          "description": "Disable Recall on first logon",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Windows\\CurrentVersion\\RunOnce",
+          "name": "DisableWSAIFabricSvc",
+          "type": "REG_SZ",
+          "data": "reg add \"HKLM\\SYSTEM\\CurrentControlSet\\Services\\WSAIFabricSvc\" /v \"Start\" /t REG_DWORD /d \"4\" /f",
+          "force": false
+        },
+        {
+          "description": "Disable Recall on first logon",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Windows\\CurrentVersion\\RunOnce",
+          "name": "StopWSAIFabricSvc",
+          "type": "REG_SZ",
+          "data": "net stop WSAIFabricSvc",
+          "force": false
+        },
+        {
+          "description": "Disable Recall on first logon",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer",
+          "name": "SettingsPageVisibility",
+          "type": "REG_SZ",
+          "data": "hide:aicomponents"
+        },
+        {
+          "description": "Always unload registry hives regardless of errors",
+          "action": "add",
+          "key": "HKLM\\zNTUSER\\Software\\Microsoft\\Windows\\CurrentVersion\\WindowsCopilot",
+          "name": "AllowCopilotRuntime",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "Always unload registry hives regardless of errors",
+          "action": "add",
+          "key": "HKLM\\zNTUSER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+          "name": "ShowCopilotButton",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "Always unload registry hives regardless of errors",
+          "action": "add",
+          "key": "HKLM\\zNTUSER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Taskband\\AuxilliaryPins",
+          "name": "CopilotPWAPin",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "Always unload registry hives regardless of errors",
+          "action": "add",
+          "key": "HKLM\\zNTUSER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Taskband\\AuxilliaryPins",
+          "name": "RecallPin",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "Always unload registry hives regardless of errors",
+          "action": "add",
+          "key": "HKLM\\zNTUSER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\AutoInstalledPWAs",
+          "name": "CopilotPWAPreinstallCompleted",
+          "type": "REG_DWORD",
+          "data": "1"
+        },
+        {
+          "description": "Configure Disabled",
+          "action": "add",
+          "key": "HKLM\\zNTUSER\\Software\\Microsoft\\Windows\\CurrentVersion\\BackgroundAccessApplications\\Microsoft.Copilot_8wekyb3d8bbwe",
+          "name": "Disabled",
+          "type": "REG_DWORD",
+          "data": "1"
+        },
+        {
+          "description": "Configure DisabledByUser",
+          "action": "add",
+          "key": "HKLM\\zNTUSER\\Software\\Microsoft\\Windows\\CurrentVersion\\BackgroundAccessApplications\\Microsoft.Copilot_8wekyb3d8bbwe",
+          "name": "DisabledByUser",
+          "type": "REG_DWORD",
+          "data": "1"
+        },
+        {
+          "description": "Configure {CB3B0003-8088-4EDE-8769-8B354AB2FF8C}",
+          "action": "add",
+          "key": "HKLM\\zNTUSER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Shell Extensions\\Blocked",
+          "name": "{CB3B0003-8088-4EDE-8769-8B354AB2FF8C}",
+          "type": "REG_SZ",
+          "data": "Ask Copilot"
+        },
+        {
+          "description": "Disable Recall only (independent of full AI removal, so Copilot is kept)",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Notifications\\Settings",
+          "name": "AutoOpenCopilotLargeScreens",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "Disable Recall only (independent of full AI removal, so Copilot is kept)",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Policies\\Microsoft\\Windows\\Appx\\RemoveDefaultMicrosoftStorePackages",
+          "name": "Enabled",
+          "type": "REG_DWORD",
+          "data": "1"
+        },
+        {
+          "description": "Disable Recall only (independent of full AI removal, so Copilot is kept)",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Policies\\Microsoft\\Windows\\Appx\\RemoveDefaultMicrosoftStorePackages\\Microsoft.Copilot_8wekyb3d8bbwe",
+          "name": "RemovePackage",
+          "type": "REG_DWORD",
+          "data": "1"
+        },
+        {
+          "description": "Disable Recall only (independent of full AI removal, so Copilot is kept)",
+          "action": "add",
+          "key": "HKLM\\zNTUSER\\Software\\Microsoft\\Office\\16.0\\Word\\Options",
+          "name": "EnableCopilot",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "Configure EnableCopilot",
+          "action": "add",
+          "key": "HKLM\\zNTUSER\\Software\\Microsoft\\Office\\16.0\\Excel\\Options",
+          "name": "EnableCopilot",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "Configure CopilotEnabled",
+          "action": "add",
+          "key": "HKLM\\zNTUSER\\Software\\Microsoft\\Office\\16.0\\OneNote\\Options\\Copilot",
+          "name": "CopilotEnabled",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "Recall policies (machine-wide) - these are Recall-specific and do not affect Copilot",
+          "action": "add",
+          "key": "HKLM\\zNTUSER\\Software\\Policies\\Microsoft\\office\\16.0\\common\\privacy",
+          "name": "controllerconnectedservicesenabled",
+          "type": "REG_DWORD",
+          "data": "2"
+        },
+        {
+          "description": "Turn off Windows Copilot [Verified] https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-windowsai",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Policies\\Microsoft\\Windows\\WindowsCopilot",
+          "name": "TurnOffWindowsCopilot",
+          "type": "REG_DWORD",
+          "data": "1"
+        },
+        {
+          "description": "Turn off saving snapshots for Recall (disable AI data analysis) [Verified] https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-windowsai",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Policies\\Microsoft\\Windows\\WindowsAI",
+          "name": "DisableAIDataAnalysis",
+          "type": "REG_DWORD",
+          "data": "1"
+        },
+        {
+          "description": "Disable the Recall optional component so users cannot enable it [Verified] https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-windowsai",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Policies\\Microsoft\\Windows\\WindowsAI",
+          "name": "AllowRecallEnablement",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "Turn off saving snapshots for Recall [Verified] https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-windowsai",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Policies\\Microsoft\\Windows\\WindowsAI",
+          "name": "TurnOffSavingSnapshots",
+          "type": "REG_DWORD",
+          "data": "1"
+        },
+        {
+          "description": "Recall policies (default user)",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Policies\\Microsoft\\Windows\\WindowsAI",
+          "name": "DisableSettingsAgent",
+          "type": "REG_DWORD",
+          "data": "1"
+        },
+        {
+          "description": "Recall policies (default user)",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Windows\\Shell\\Copilot",
+          "name": "IsCopilotAvailable",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "Unpin Recall from the taskbar",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Windows\\Shell\\Copilot",
+          "name": "CopilotDisabledReason",
+          "type": "REG_SZ",
+          "data": "FeatureIsDisabled"
+        },
+        {
+          "description": "Turn off Windows Copilot [Verified] https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-windowsai",
+          "action": "add",
+          "key": "HKLM\\zNTUSER\\Software\\Policies\\Microsoft\\Windows\\WindowsCopilot",
+          "name": "TurnOffWindowsCopilot",
+          "type": "REG_DWORD",
+          "data": "1"
+        },
+        {
+          "description": "Turn off saving snapshots for Recall (disable AI data analysis) [Verified] https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-windowsai",
+          "action": "add",
+          "key": "HKLM\\zNTUSER\\Software\\Policies\\Microsoft\\Windows\\WindowsAI",
+          "name": "DisableAIDataAnalysis",
+          "type": "REG_DWORD",
+          "data": "1"
+        },
+        {
+          "description": "Disable the Recall optional component so users cannot enable it [Verified] https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-windowsai",
+          "action": "add",
+          "key": "HKLM\\zNTUSER\\Software\\Policies\\Microsoft\\Windows\\WindowsAI",
+          "name": "AllowRecallEnablement",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "Turn off saving snapshots for Recall [Verified] https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-windowsai",
+          "action": "add",
+          "key": "HKLM\\zNTUSER\\Software\\Policies\\Microsoft\\Windows\\WindowsAI",
+          "name": "TurnOffSavingSnapshots",
+          "type": "REG_DWORD",
+          "data": "1"
+        },
+        {
+          "description": "Disable the Recall optional feature on first logon",
+          "action": "add",
+          "key": "HKLM\\zNTUSER\\Software\\Policies\\Microsoft\\Windows\\WindowsAI",
+          "name": "DisableSettingsAgent",
+          "type": "REG_DWORD",
+          "data": "1"
+        },
+        {
+          "description": "Turn off Click to Do [Verified] https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-windowsai",
+          "action": "add",
+          "key": "HKLM\\zNTUSER\\Software\\Policies\\Microsoft\\Windows\\WindowsAI",
+          "name": "DisableClickToDo",
+          "type": "REG_DWORD",
+          "data": "1"
+        },
+        {
+          "description": "Configure ShowCopilotButton",
+          "action": "add",
+          "key": "HKLM\\zNTUSER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+          "name": "ShowCopilotButton",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "Configure {CB3B0003-8088-4EDE-8769-8B354AB2FF8C}",
+          "action": "add",
+          "key": "HKLM\\zNTUSER\\Software\\Microsoft\\Windows\\CurrentVersion\\Shell Extensions\\Blocked",
+          "name": "{CB3B0003-8088-4EDE-8769-8B354AB2FF8C}",
+          "type": "REG_SZ",
+          "data": "Ask Copilot"
+        },
+        {
+          "description": "Configure IsCopilotAvailable",
+          "action": "add",
+          "key": "HKLM\\zNTUSER\\Software\\Microsoft\\Windows\\Shell\\Copilot",
+          "name": "IsCopilotAvailable",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "Configure CopilotDisabledReason",
+          "action": "add",
+          "key": "HKLM\\zNTUSER\\Software\\Microsoft\\Windows\\Shell\\Copilot",
+          "name": "CopilotDisabledReason",
+          "type": "REG_SZ",
+          "data": "FeatureIsDisabled"
+        },
+        {
+          "description": "Configure WindowsAI",
+          "action": "delete",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Schedule\\TaskCache\\Tree\\Microsoft\\Windows\\WindowsAI"
+        }
+      ]
+    },
+    {
+      "name": "aiRecall",
+      "ops": [
+        {
+          "description": "Registry Tweaks",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Windows\\CurrentVersion\\RunOnce",
+          "name": "DisableRecall",
+          "type": "REG_SZ",
+          "data": "dism.exe /online /disable-feature /FeatureName:recall"
+        }
+      ]
+    },
+    {
+      "name": "recall",
+      "ops": [
+        {
+          "description": "Turn off saving snapshots for Recall (disable AI data analysis) [Verified] https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-windowsai",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Policies\\Microsoft\\Windows\\WindowsAI",
+          "name": "DisableAIDataAnalysis",
+          "type": "REG_DWORD",
+          "data": "1"
+        },
+        {
+          "description": "Disable the Recall optional component so users cannot enable it [Verified] https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-windowsai",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Policies\\Microsoft\\Windows\\WindowsAI",
+          "name": "AllowRecallEnablement",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "Turn off saving snapshots for Recall [Verified] https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-windowsai",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Policies\\Microsoft\\Windows\\WindowsAI",
+          "name": "TurnOffSavingSnapshots",
+          "type": "REG_DWORD",
+          "data": "1"
+        },
+        {
+          "description": "Turn off saving snapshots for Recall (disable AI data analysis) [Verified] https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-windowsai",
+          "action": "add",
+          "key": "HKLM\\zNTUSER\\Software\\Policies\\Microsoft\\Windows\\WindowsAI",
+          "name": "DisableAIDataAnalysis",
+          "type": "REG_DWORD",
+          "data": "1"
+        },
+        {
+          "description": "Disable the Recall optional component so users cannot enable it [Verified] https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-windowsai",
+          "action": "add",
+          "key": "HKLM\\zNTUSER\\Software\\Policies\\Microsoft\\Windows\\WindowsAI",
+          "name": "AllowRecallEnablement",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "Turn off saving snapshots for Recall [Verified] https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-windowsai",
+          "action": "add",
+          "key": "HKLM\\zNTUSER\\Software\\Policies\\Microsoft\\Windows\\WindowsAI",
+          "name": "TurnOffSavingSnapshots",
+          "type": "REG_DWORD",
+          "data": "1"
+        },
+        {
+          "description": "Configure RecallPin",
+          "action": "add",
+          "key": "HKLM\\zNTUSER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Taskband\\AuxilliaryPins",
+          "name": "RecallPin",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "Configure DisableRecall",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Windows\\CurrentVersion\\RunOnce",
+          "name": "DisableRecall",
+          "type": "REG_SZ",
+          "data": "dism.exe /online /disable-feature /FeatureName:recall"
+        }
+      ]
+    },
+    {
+      "name": "sponsoredApps",
+      "ops": [
+        {
+          "description": "Configure OemPreInstalledAppsEnabled",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager",
+          "name": "OemPreInstalledAppsEnabled",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "Disable Ads and Stuffs",
+          "action": "add",
+          "key": "HKLM\\zNTUSER\\Software\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager",
+          "name": "PreInstalledAppsEnabled",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "Disable Ads and Stuffs",
+          "action": "add",
+          "key": "HKLM\\zNTUSER\\Software\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager",
+          "name": "SilentInstalledAppsEnabled",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "Turn off Microsoft consumer experiences (suggested/auto-installed apps) [Verified] https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-experience",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Policies\\Microsoft\\Windows\\CloudContent",
+          "name": "DisableWindowsConsumerFeatures",
+          "type": "REG_DWORD",
+          "data": "1"
+        },
+        {
+          "description": "Disable ad tailoring",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\PolicyManager\\current\\device\\Start",
+          "name": "ConfigureStartPins",
+          "type": "REG_SZ",
+          "data": "{\\\"pinnedList\\\": [{}]}"
+        },
+        {
+          "description": "Disable ad tailoring",
+          "action": "add",
+          "key": "HKLM\\zNTUSER\\Software\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager",
+          "name": "SubscribedContentEnabled",
+          "type": "REG_SZ",
+          "data": "0"
+        },
+        {
+          "description": "Disable cloud-based content",
+          "action": "add",
+          "key": "HKLM\\zNTUSER\\Software\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager",
+          "name": "SubscribedContentEnabled",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "Disable cloud-based content",
+          "action": "add",
+          "key": "HKLM\\zNTUSER\\Software\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager",
+          "name": "SubscribedContent-310093Enabled",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "Disable cloud-based content",
+          "action": "add",
+          "key": "HKLM\\zNTUSER\\Software\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager",
+          "name": "SubscribedContent-338388Enabled",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "Disable Start Menu Suggestions",
+          "action": "add",
+          "key": "HKLM\\zNTUSER\\Software\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager",
+          "name": "SubscribedContent-338389Enabled",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "Disable Start Menu Suggestions",
+          "action": "add",
+          "key": "HKLM\\zNTUSER\\Software\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager",
+          "name": "SubscribedContent-338393Enabled",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "Disable News and Interest",
+          "action": "add",
+          "key": "HKLM\\zNTUSER\\Software\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager",
+          "name": "SubscribedContent-353694Enabled",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "Disable News and Interest",
+          "action": "add",
+          "key": "HKLM\\zNTUSER\\Software\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager",
+          "name": "SubscribedContent-353696Enabled",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "Remove Spotlight icon from Desktop",
+          "action": "add",
+          "key": "HKLM\\zNTUSER\\Software\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager",
+          "name": "SubscribedContent-338387Enabled",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "Remove Spotlight icon from Desktop",
+          "action": "add",
+          "key": "HKLM\\zNTUSER\\Software\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager",
+          "name": "ContentDeliveryAllowed",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "Disable Cortana",
+          "action": "add",
+          "key": "HKLM\\zNTUSER\\Software\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager",
+          "name": "PreInstalledAppsEverEnabled",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "Disable Cortana",
+          "action": "add",
+          "key": "HKLM\\zNTUSER\\Software\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager",
+          "name": "SoftLandingEnabled",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "Changes MenuShowDelay from 400 to 200",
+          "action": "add",
+          "key": "HKLM\\zNTUSER\\Software\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager",
+          "name": "SystemPaneSuggestionsEnabled",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "Changes MenuShowDelay from 400 to 200",
+          "action": "delete",
+          "key": "HKLM\\zNTUSER\\Software\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager\\Subscriptions"
+        },
+        {
+          "description": "Disable everytime MRT download through Win Update",
+          "action": "delete",
+          "key": "HKLM\\zNTUSER\\Software\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager\\SuggestedApps"
+        }
+      ]
+    },
+    {
+      "name": "telemetry",
+      "ops": [
+        {
+          "description": "Set the Windows diagnostic data (telemetry) level to Security/off [Verified] https://learn.microsoft.com/en-us/windows/privacy/configure-windows-diagnostic-data-in-your-organization",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Policies\\Microsoft\\Windows\\DataCollection",
+          "name": "AllowTelemetry",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "Disable Outlook",
+          "action": "add",
+          "key": "HKLM\\zNTUSER\\Software\\Microsoft\\Personalization\\Settings",
+          "name": "AcceptedPrivacyPolicy",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "Disable Bitlocker",
+          "action": "add",
+          "key": "HKLM\\zNTUSER\\Software\\Microsoft\\Windows\\CurrentVersion\\Privacy",
+          "name": "TailoredExperiencesWithDiagnosticDataEnabled",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "Disable Bitlocker",
+          "action": "add",
+          "key": "HKLM\\zNTUSER\\Software\\Microsoft\\Speech_OneCore\\Settings\\OnlineSpeechPrivacy",
+          "name": "HasAccepted",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "Disable Bitlocker",
+          "action": "add",
+          "key": "HKLM\\zNTUSER\\Software\\Microsoft\\InputPersonalization",
+          "name": "RestrictImplicitInkCollection",
+          "type": "REG_DWORD",
+          "data": "1"
+        },
+        {
+          "description": "Disable Bitlocker",
+          "action": "add",
+          "key": "HKLM\\zNTUSER\\Software\\Microsoft\\InputPersonalization",
+          "name": "RestrictImplicitTextCollection",
+          "type": "REG_DWORD",
+          "data": "1"
+        },
+        {
+          "description": "Disable Bitlocker",
+          "action": "add",
+          "key": "HKLM\\zNTUSER\\Software\\Microsoft\\InputPersonalization\\TrainedDataStore",
+          "name": "HarvestContacts",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "Disable Bitlocker",
+          "action": "add",
+          "key": "HKLM\\zNTUSER\\Software\\Microsoft\\Windows\\CurrentVersion\\AdvertisingInfo",
+          "name": "Enabled",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "Disable OneDrive Stuffs",
+          "action": "add",
+          "key": "HKLM\\zSYSTEM\\ControlSet001\\Services\\dmwappushservice",
+          "name": "Start",
+          "type": "REG_DWORD",
+          "data": "4"
+        }
+      ]
+    },
+    {
+      "name": "mouseAcceleration",
+      "ops": [
+        {
+          "description": "Configure MouseSpeed",
+          "action": "add",
+          "key": "HKLM\\zNTUSER\\Control Panel\\Mouse",
+          "name": "MouseSpeed",
+          "type": "REG_SZ",
+          "data": "0"
+        },
+        {
+          "description": "Configure MouseThreshold1",
+          "action": "add",
+          "key": "HKLM\\zNTUSER\\Control Panel\\Mouse",
+          "name": "MouseThreshold1",
+          "type": "REG_SZ",
+          "data": "0"
+        },
+        {
+          "description": "Configure MouseThreshold2",
+          "action": "add",
+          "key": "HKLM\\zNTUSER\\Control Panel\\Mouse",
+          "name": "MouseThreshold2",
+          "type": "REG_SZ",
+          "data": "0"
+        }
+      ]
+    },
+    {
+      "name": "meetNow",
+      "ops": [
+        {
+          "description": "Disable GameDVR",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer",
+          "name": "HideSCAMeetNow",
+          "type": "REG_DWORD",
+          "data": "1"
+        },
+        {
+          "description": "Configure AllowOnlineTips",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer",
+          "name": "AllowOnlineTips",
+          "type": "REG_DWORD",
+          "data": "0"
+        }
+      ]
+    },
+    {
+      "name": "ads",
+      "ops": [
+        {
+          "description": "Remove Gamebar Popup",
+          "action": "add",
+          "key": "HKLM\\zNTUSER\\Software\\Microsoft\\Windows\\CurrentVersion\\AdvertisingInfo",
+          "name": "Enabled",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "Rest added as post install script. Somehow, implementing it directly on the image was causing corruption",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Policies\\Microsoft\\Windows\\CloudContent",
+          "name": "DisableConsumerAccountStateContent",
+          "type": "REG_DWORD",
+          "data": "1"
+        },
+        {
+          "description": "Rest added as post install script. Somehow, implementing it directly on the image was causing corruption",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Policies\\Microsoft\\Windows\\CloudContent",
+          "name": "DisableCloudOptimizedContent",
+          "type": "REG_DWORD",
+          "data": "1"
+        },
+        {
+          "description": "# Configure GameBarFTServer (NA)",
+          "action": "add",
+          "key": "HKLM\\zNTUSER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+          "name": "Start_IrisRecommendations",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "# Configure GameBarFTServer (NA)",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Policies\\Microsoft\\Windows\\Windows Feeds",
+          "name": "EnableFeeds",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "# Configure GameBarFTServer (NA)",
+          "action": "add",
+          "key": "HKLM\\zNTUSER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\HideDesktopIcons\\NewStartPanel",
+          "name": "{2cc5ca98-6485-489a-920e-b3e88a6ccce3}",
+          "type": "REG_DWORD",
+          "data": "1"
+        },
+        {
+          "description": "Disallow Cortana [Verified] https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-search#allowcortana",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Policies\\Microsoft\\Windows\\Windows Search",
+          "name": "AllowCortana",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "Enabling Local Account Creation",
+          "action": "add",
+          "key": "HKLM\\zNTUSER\\Control Panel\\Desktop",
+          "name": "MenuShowDelay",
+          "type": "REG_SZ",
+          "data": "200"
+        },
+        {
+          "description": "Enabling Local Account Creation",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Policies\\Microsoft\\MRT",
+          "name": "DontOfferThroughWUAU",
+          "type": "REG_DWORD",
+          "data": "1"
+        },
+        {
+          "description": "Check if Autounattend.xml exists before copying",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Policies\\Microsoft\\Teams",
+          "name": "DisableInstallation",
+          "type": "REG_DWORD",
+          "data": "1"
+        },
+        {
+          "description": "Check if Autounattend.xml exists before copying",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Policies\\Microsoft\\Windows\\Windows Mail",
+          "name": "PreventRun",
+          "type": "REG_DWORD",
+          "data": "1"
+        }
+      ]
+    },
+    {
+      "name": "bitlocker",
+      "ops": [
+        {
+          "description": "Configure PreventDeviceEncryption",
+          "action": "add",
+          "key": "HKLM\\zSYSTEM\\ControlSet001\\Control\\BitLocker",
+          "name": "PreventDeviceEncryption",
+          "type": "REG_DWORD",
+          "data": "1"
+        }
+      ]
+    },
+    {
+      "name": "oneDriveJunk",
+      "ops": [
+        {
+          "description": "Prevents Dev Home Installation",
+          "action": "delete",
+          "key": "HKLM\\zNTUSER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run",
+          "name": "OneDriveSetup"
+        },
+        {
+          "description": "Prevents Dev Home Installation",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Policies\\Microsoft\\Windows\\OneDrive",
+          "name": "DisableLibrariesDefaultSaveToOneDrive",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "Prevent the usage of OneDrive for file storage [Verified] https://learn.microsoft.com/en-us/onedrive/use-group-policy#prevent-the-usage-of-onedrive-for-file-storage",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Policies\\Microsoft\\Windows\\OneDrive",
+          "name": "DisableFileSyncNGSC",
+          "type": "REG_DWORD",
+          "data": "1"
+        },
+        {
+          "description": "Prevents New Outlook for Windows Installation",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Policies\\Microsoft\\OneDrive",
+          "name": "KFMBlockOptIn",
+          "type": "REG_DWORD",
+          "data": "1"
+        }
+      ]
+    },
+    {
+      "name": "gameDVR",
+      "ops": [
+        {
+          "description": "Prevents Chat Auto Installation",
+          "action": "add",
+          "key": "HKLM\\zNTUSER\\Software\\Microsoft\\Windows\\CurrentVersion\\GameDVR",
+          "name": "AppCaptureEnabled",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "Prevents Chat Auto Installation",
+          "action": "add",
+          "key": "HKLM\\zNTUSER\\System\\GameConfigStore",
+          "name": "GameDVR_Enabled",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "Disable recording and broadcasting of games (Game DVR) [Verified] https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-gamedvr#allowgamedvr",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Policies\\Microsoft\\Windows\\GameDVR",
+          "name": "AllowGameDVR",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "Disable Scheduled Tasks",
+          "action": "add",
+          "key": "HKLM\\zSYSTEM\\ControlSet001\\Services\\BcastDVRUserService",
+          "name": "Start",
+          "type": "REG_DWORD",
+          "data": "4"
+        },
+        {
+          "description": "Disable Scheduled Tasks",
+          "action": "add",
+          "key": "HKLM\\zSYSTEM\\ControlSet001\\Services\\GameBarPresenceWriter",
+          "name": "Start",
+          "type": "REG_DWORD",
+          "data": "4"
+        }
+      ]
+    },
+    {
+      "name": "gamebar",
+      "ops": [
+        {
+          "description": "Program Data Updater",
+          "action": "add",
+          "key": "HKLM\\zNTUSER\\Software\\Microsoft\\GameBar",
+          "name": "AutoGameModeEnabled",
+          "type": "REG_DWORD",
+          "data": "0"
+        }
+      ]
+    },
+    {
+      "name": "oobe",
+      "ops": [
+        {
+          "description": "Program Data Updater",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Policies\\Microsoft\\Windows\\OOBE",
+          "name": "DisablePrivacyExperience",
+          "type": "REG_DWORD",
+          "data": "1"
+        },
+        {
+          "description": "Application Compatibility Appraiser",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Windows\\CurrentVersion\\OOBE",
+          "name": "BypassNRO",
+          "type": "REG_DWORD",
+          "data": "1"
+        },
+        {
+          "description": "Application Compatibility Appraiser",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Windows\\CurrentVersion\\OOBE",
+          "name": "BypassNROGatherOptions",
+          "type": "REG_DWORD",
+          "data": "1"
+        }
+      ]
+    },
+    {
+      "name": "uselessJunks",
+      "ops": [
+        {
+          "description": "Disable TPM CHeck",
+          "action": "delete",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\WindowsUpdate\\Orchestrator\\UScheduler_Oobe\\DevHomeUpdate"
+        },
+        {
+          "description": "Disable TPM CHeck",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Windows\\CurrentVersion\\WindowsUpdate\\Orchestrator\\UScheduler\\DevHomeUpdate",
+          "name": "workCompleted",
+          "type": "REG_DWORD",
+          "data": "1"
+        },
+        {
+          "description": "Disable TPM CHeck",
+          "action": "delete",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\WindowsUpdate\\Orchestrator\\UScheduler_Oobe\\OutlookUpdate"
+        },
+        {
+          "description": "Disable TPM CHeck",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Windows\\CurrentVersion\\WindowsUpdate\\Orchestrator\\UScheduler\\OutlookUpdate",
+          "name": "workCompleted",
+          "type": "REG_DWORD",
+          "data": "1"
+        },
+        {
+          "description": "Configure ConfigureChatAutoInstall",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Communications",
+          "name": "ConfigureChatAutoInstall",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "Configure ChatIcon",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Policies\\Microsoft\\Windows\\Windows Chat",
+          "name": "ChatIcon",
+          "type": "REG_DWORD",
+          "data": "3"
+        }
+      ]
+    },
+    {
+      "name": "scheduledTasks24H2",
+      "ops": [
+        {
+          "description": "Disable Unsupported Hardware Watermark",
+          "action": "delete",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Schedule\\TaskCache\\Tasks\\{780E487D-C62F-4B55-AF84-0E38116AFE07}"
+        },
+        {
+          "description": "Clear upgrade failure records",
+          "action": "delete",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Schedule\\TaskCache\\Tasks\\{FD607F42-4541-418A-B812-05C32EBA8626}"
+        },
+        {
+          "description": "Clear upgrade failure records",
+          "action": "delete",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Schedule\\TaskCache\\Tasks\\{E4FED5BC-D567-4044-9642-2EDADF7DE108}"
+        },
+        {
+          "description": "Clear upgrade failure records",
+          "action": "delete",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Schedule\\TaskCache\\Tasks\\{E292525C-72F1-482C-8F35-C513FAA98DAE}"
+        },
+        {
+          "description": "Simulate meeting requirements",
+          "action": "delete",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Schedule\\TaskCache\\Tasks\\{3047C197-66F1-4523-BA92-6C955FEF9E4E}"
+        },
+        {
+          "description": "Set Upgrade Eligibility",
+          "action": "delete",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Schedule\\TaskCache\\Tasks\\{A0C71CB8-E8F0-498A-901D-4EDA09E07FF4}"
+        }
+      ]
+    },
+    {
+      "name": "scheduledTasksLegacy",
+      "ops": [
+        {
+          "description": "Remove appraiserres.dll and replace with blank file",
+          "action": "delete",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Schedule\\TaskCache\\Tasks\\{4738DE7A-BCC1-4E2D-B1B0-CADB044BFA81}"
+        },
+        {
+          "description": "Remove appraiserres.dll and replace with blank file",
+          "action": "delete",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Schedule\\TaskCache\\Tasks\\{6FAC31FA-4A85-4E64-BFD5-2154FF4594B3}"
+        },
+        {
+          "description": "Remove appraiserres.dll and replace with blank file",
+          "action": "delete",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Schedule\\TaskCache\\Tasks\\{FC931F16-B50A-472E-B061-B6F79A71EF59}"
+        },
+        {
+          "description": "Remove appraiserres.dll and replace with blank file",
+          "action": "delete",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Schedule\\TaskCache\\Tasks\\{0671EB05-7D95-4153-A32B-1426B9FE61DB}"
+        },
+        {
+          "description": "Configure {0600DD45-FAF2-4131-A006-0B17509B9F78}",
+          "action": "delete",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Schedule\\TaskCache\\Tasks\\{0600DD45-FAF2-4131-A006-0B17509B9F78}"
+        }
+      ]
+    },
+    {
+      "name": "scheduledTasksCommon",
+      "ops": [
+        {
+          "description": "Configure PcaPatchDbTask",
+          "action": "delete",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Schedule\\TaskCache\\Tree\\Microsoft\\Windows\\Application Experience\\PcaPatchDbTask"
+        },
+        {
+          "description": "Configure MareBackup",
+          "action": "delete",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Schedule\\TaskCache\\Tree\\Microsoft\\Windows\\Application Experience\\MareBackup"
+        },
+        {
+          "description": "Configure ProgramDataUpdater",
+          "action": "delete",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Schedule\\TaskCache\\Tree\\Microsoft\\Windows\\Application Experience\\ProgramDataUpdater"
+        },
+        {
+          "description": "Configure Microsoft Compatibility Appraiser",
+          "action": "delete",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Schedule\\TaskCache\\Tree\\Microsoft\\Windows\\Application Experience\\Microsoft Compatibility Appraiser"
+        },
+        {
+          "description": "Configure Microsoft Compatibility Appraiser Exp",
+          "action": "delete",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Schedule\\TaskCache\\Tree\\Microsoft\\Windows\\Application Experience\\Microsoft Compatibility Appraiser Exp"
+        },
+        {
+          "description": "Configure Proxy",
+          "action": "delete",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Schedule\\TaskCache\\Tree\\Microsoft\\Windows\\Autochk\\Proxy"
+        },
+        {
+          "description": "Configure Consolidator",
+          "action": "delete",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Schedule\\TaskCache\\Tree\\Microsoft\\Windows\\Customer Experience Improvement Program\\Consolidator"
+        },
+        {
+          "description": "Configure KernelCeipTask",
+          "action": "delete",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Schedule\\TaskCache\\Tree\\Microsoft\\Windows\\Customer Experience Improvement Program\\KernelCeipTask"
+        },
+        {
+          "description": "Configure UsbCeip",
+          "action": "delete",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Schedule\\TaskCache\\Tree\\Microsoft\\Windows\\Customer Experience Improvement Program\\UsbCeip"
+        },
+        {
+          "description": "Configure Customer Experience Improvement Program",
+          "action": "delete",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Schedule\\TaskCache\\Tree\\Microsoft\\Windows\\Customer Experience Improvement Program"
+        }
+      ]
+    },
+    {
+      "name": "tpmBypassImage",
+      "ops": [
+        {
+          "description": "Configure BypassTPMCheck",
+          "action": "add",
+          "key": "HKLM\\zSYSTEM\\Setup\\LabConfig",
+          "name": "BypassTPMCheck",
+          "type": "REG_DWORD",
+          "data": "1"
+        },
+        {
+          "description": "Configure BypassSecureBootCheck",
+          "action": "add",
+          "key": "HKLM\\zSYSTEM\\Setup\\LabConfig",
+          "name": "BypassSecureBootCheck",
+          "type": "REG_DWORD",
+          "data": "1"
+        },
+        {
+          "description": "Configure BypassStorageCheck",
+          "action": "add",
+          "key": "HKLM\\zSYSTEM\\Setup\\LabConfig",
+          "name": "BypassStorageCheck",
+          "type": "REG_DWORD",
+          "data": "1"
+        },
+        {
+          "description": "Configure BypassCPUCheck",
+          "action": "add",
+          "key": "HKLM\\zSYSTEM\\Setup\\LabConfig",
+          "name": "BypassCPUCheck",
+          "type": "REG_DWORD",
+          "data": "1"
+        },
+        {
+          "description": "Configure BypassRAMCheck",
+          "action": "add",
+          "key": "HKLM\\zSYSTEM\\Setup\\LabConfig",
+          "name": "BypassRAMCheck",
+          "type": "REG_DWORD",
+          "data": "1"
+        },
+        {
+          "description": "Configure BypassDiskCheck",
+          "action": "add",
+          "key": "HKLM\\zSYSTEM\\Setup\\LabConfig",
+          "name": "BypassDiskCheck",
+          "type": "REG_DWORD",
+          "data": "1"
+        },
+        {
+          "description": "Allow Windows 11 upgrade on devices with unsupported TPM/CPU [Verified] https://support.microsoft.com/en-us/windows/ways-to-install-windows-11-2abb7f63-10ce-40fb-9bab-4c11ef7b4cfd",
+          "action": "add",
+          "key": "HKLM\\zSYSTEM\\Setup\\MoSetup",
+          "name": "AllowUpgradesWithUnsupportedTPMOrCPU",
+          "type": "REG_DWORD",
+          "data": "1"
+        },
+        {
+          "description": "Configure SV1",
+          "action": "add",
+          "key": "HKLM\\zDEFAULT\\Control Panel\\UnsupportedHardwareNotificationCache",
+          "name": "SV1",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "Configure SV2",
+          "action": "add",
+          "key": "HKLM\\zDEFAULT\\Control Panel\\UnsupportedHardwareNotificationCache",
+          "name": "SV2",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "Configure SV1",
+          "action": "add",
+          "key": "HKLM\\zNTUSER\\Control Panel\\UnsupportedHardwareNotificationCache",
+          "name": "SV1",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "Configure SV2",
+          "action": "add",
+          "key": "HKLM\\zNTUSER\\Control Panel\\UnsupportedHardwareNotificationCache",
+          "name": "SV2",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "Configure HideUnsupportedHardwareNotifications",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System",
+          "name": "HideUnsupportedHardwareNotifications",
+          "type": "REG_DWORD",
+          "data": "1"
+        },
+        {
+          "description": "Configure CompatMarkers",
+          "action": "delete",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\AppCompatFlags\\CompatMarkers"
+        },
+        {
+          "description": "Configure Shared",
+          "action": "delete",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\AppCompatFlags\\Shared"
+        },
+        {
+          "description": "Configure TargetVersionUpgradeExperienceIndicators",
+          "action": "delete",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\AppCompatFlags\\TargetVersionUpgradeExperienceIndicators"
+        },
+        {
+          "description": "Configure HwReqChkVars",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\AppCompatFlags\\HwReqChk",
+          "name": "HwReqChkVars",
+          "type": "REG_MULTI_SZ",
+          "data": "SQ_SecureBootCapable=TRUE\\0SQ_SecureBootEnabled=TRUE\\0SQ_TpmVersion=2\\0SQ_RamMB=8192"
+        },
+        {
+          "description": "Configure UpgradeEligibility",
+          "action": "add",
+          "key": "HKLM\\zNTUSER\\Software\\Microsoft\\PCHC",
+          "name": "UpgradeEligibility",
+          "type": "REG_DWORD",
+          "data": "1"
+        }
+      ]
+    },
+    {
+      "name": "tpmBypassBoot",
+      "ops": [
+        {
+          "description": "Configure BypassTPMCheck",
+          "action": "add",
+          "key": "HKLM\\xSYSTEM\\Setup\\LabConfig",
+          "name": "BypassTPMCheck",
+          "type": "REG_DWORD",
+          "data": "1"
+        },
+        {
+          "description": "Configure BypassSecureBootCheck",
+          "action": "add",
+          "key": "HKLM\\xSYSTEM\\Setup\\LabConfig",
+          "name": "BypassSecureBootCheck",
+          "type": "REG_DWORD",
+          "data": "1"
+        },
+        {
+          "description": "Configure BypassStorageCheck",
+          "action": "add",
+          "key": "HKLM\\xSYSTEM\\Setup\\LabConfig",
+          "name": "BypassStorageCheck",
+          "type": "REG_DWORD",
+          "data": "1"
+        },
+        {
+          "description": "Configure BypassCPUCheck",
+          "action": "add",
+          "key": "HKLM\\xSYSTEM\\Setup\\LabConfig",
+          "name": "BypassCPUCheck",
+          "type": "REG_DWORD",
+          "data": "1"
+        },
+        {
+          "description": "Configure BypassRAMCheck",
+          "action": "add",
+          "key": "HKLM\\xSYSTEM\\Setup\\LabConfig",
+          "name": "BypassRAMCheck",
+          "type": "REG_DWORD",
+          "data": "1"
+        },
+        {
+          "description": "Configure BypassDiskCheck",
+          "action": "add",
+          "key": "HKLM\\xSYSTEM\\Setup\\LabConfig",
+          "name": "BypassDiskCheck",
+          "type": "REG_DWORD",
+          "data": "1"
+        },
+        {
+          "description": "Allow Windows 11 upgrade on devices with unsupported TPM/CPU [Verified] https://support.microsoft.com/en-us/windows/ways-to-install-windows-11-2abb7f63-10ce-40fb-9bab-4c11ef7b4cfd",
+          "action": "add",
+          "key": "HKLM\\xSYSTEM\\Setup\\MoSetup",
+          "name": "AllowUpgradesWithUnsupportedTPMOrCPU",
+          "type": "REG_DWORD",
+          "data": "1"
+        },
+        {
+          "description": "Configure SV1",
+          "action": "add",
+          "key": "HKLM\\xDEFAULT\\Control Panel\\UnsupportedHardwareNotificationCache",
+          "name": "SV1",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "Configure SV2",
+          "action": "add",
+          "key": "HKLM\\xDEFAULT\\Control Panel\\UnsupportedHardwareNotificationCache",
+          "name": "SV2",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "Configure HideUnsupportedHardwareNotifications",
+          "action": "add",
+          "key": "HKLM\\xSOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System",
+          "name": "HideUnsupportedHardwareNotifications",
+          "type": "REG_DWORD",
+          "data": "1"
+        },
+        {
+          "description": "Configure HwReqChkVars",
+          "action": "add",
+          "key": "HKLM\\xSOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\AppCompatFlags\\HwReqChk",
+          "name": "HwReqChkVars",
+          "type": "REG_MULTI_SZ",
+          "data": "SQ_SecureBootCapable=TRUE\\0SQ_SecureBootEnabled=TRUE\\0SQ_TpmVersion=2\\0SQ_RamMB=8192"
+        },
+        {
+          "description": "Configure UpgradeEligibility",
+          "action": "add",
+          "key": "HKLM\\xNTUSER\\Software\\Microsoft\\PCHC",
+          "name": "UpgradeEligibility",
+          "type": "REG_DWORD",
+          "data": "1"
+        }
+      ]
+    },
+    {
+      "name": "userFolders",
+      "ops": [
+        {
+          "description": "Configure {B4BFCC3A-DB2C-424C-B029-7FE99A87C641}",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\MyComputer\\NameSpace\\{B4BFCC3A-DB2C-424C-B029-7FE99A87C641}",
+          "name": null,
+          "type": null,
+          "data": null
+        },
+        {
+          "description": "Create temp directories",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\MyComputer\\NameSpace\\{d3162b92-9365-467a-956b-92703aca08af}",
+          "name": null,
+          "type": null,
+          "data": null
+        },
+        {
+          "description": "Create temp directories",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\MyComputer\\NameSpace\\{088e3905-0323-4b02-9826-5d99428e115f}",
+          "name": null,
+          "type": null,
+          "data": null
+        },
+        {
+          "description": "Create temp directories",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\MyComputer\\NameSpace\\{3dfdf296-dbec-4fb4-81d1-6a3438bcf4de}",
+          "name": null,
+          "type": null,
+          "data": null
+        },
+        {
+          "description": "Create temp directories",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\MyComputer\\NameSpace\\{24ad3ad4-a569-4530-98e1-ab02f9417aa8}",
+          "name": null,
+          "type": null,
+          "data": null
+        },
+        {
+          "description": "Download drivers",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\MyComputer\\NameSpace\\{f86fa3ab-70d2-4fc7-9c99-fcbf05467f3a}",
+          "name": null,
+          "type": null,
+          "data": null
+        },
+        {
+          "description": "Download drivers",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\MyComputer\\NameSpace\\{B4BFCC3A-DB2C-424C-B029-7FE99A87C641}",
+          "name": "HideIfEnabled",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "Download drivers",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\MyComputer\\NameSpace\\{d3162b92-9365-467a-956b-92703aca08af}",
+          "name": "HideIfEnabled",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "Download drivers",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\MyComputer\\NameSpace\\{088e3905-0323-4b02-9826-5d99428e115f}",
+          "name": "HideIfEnabled",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "Download drivers",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\MyComputer\\NameSpace\\{3dfdf296-dbec-4fb4-81d1-6a3438bcf4de}",
+          "name": "HideIfEnabled",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "Configure HideIfEnabled",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\MyComputer\\NameSpace\\{24ad3ad4-a569-4530-98e1-ab02f9417aa8}",
+          "name": "HideIfEnabled",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "Configure HideIfEnabled",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\MyComputer\\NameSpace\\{f86fa3ab-70d2-4fc7-9c99-fcbf05467f3a}",
+          "name": "HideIfEnabled",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "Configure HiddenByDefault",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\MyComputer\\NameSpace\\{B4BFCC3A-DB2C-424C-B029-7FE99A87C641}",
+          "name": "HiddenByDefault",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "Configure HiddenByDefault",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\MyComputer\\NameSpace\\{d3162b92-9365-467a-956b-92703aca08af}",
+          "name": "HiddenByDefault",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "Configure HiddenByDefault",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\MyComputer\\NameSpace\\{088e3905-0323-4b02-9826-5d99428e115f}",
+          "name": "HiddenByDefault",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "Configure HiddenByDefault",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\MyComputer\\NameSpace\\{3dfdf296-dbec-4fb4-81d1-6a3438bcf4de}",
+          "name": "HiddenByDefault",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "Configure HiddenByDefault",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\MyComputer\\NameSpace\\{24ad3ad4-a569-4530-98e1-ab02f9417aa8}",
+          "name": "HiddenByDefault",
+          "type": "REG_DWORD",
+          "data": "0"
+        },
+        {
+          "description": "Configure HiddenByDefault",
+          "action": "add",
+          "key": "HKLM\\zSOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\MyComputer\\NameSpace\\{f86fa3ab-70d2-4fc7-9c99-fcbf05467f3a}",
+          "name": "HiddenByDefault",
+          "type": "REG_DWORD",
+          "data": "0"
+        }
+      ]
+    }
+  ]
+}
