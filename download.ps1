@@ -20,13 +20,14 @@ $XmlPath = Join-Path -Path $scriptDirectory -ChildPath "autounattend.xml"
 Invoke-WebRequest -Uri $scriptUrl -OutFile $scriptPath -UseBasicParsing
 Invoke-WebRequest -Uri $autounattendXmlUrl -OutFile $XmlPath -UseBasicParsing
 
-# Fetch the debloat data files (package lists + registry tweaks). The script can
-# also download these itself when missing, but pre-fetching keeps everything local.
+# Fetch the debloat data file (packages + registry tweaks grouped by capability).
+# The script can also download this itself when missing, but pre-fetching keeps
+# everything local.
 $dataDirectory = Join-Path -Path $scriptDirectory -ChildPath "data"
 if (-not (Test-Path -Path $dataDirectory -PathType Container)) {
     New-Item -ItemType Directory -Path $dataDirectory > $null 2>&1
 }
-foreach ($dataFile in @("packages.json", "registry.json")) {
+foreach ($dataFile in @("features.json")) {
     Invoke-WebRequest -Uri "$dataBaseUrl/$dataFile" -OutFile (Join-Path -Path $dataDirectory -ChildPath $dataFile) -UseBasicParsing
 }
 

@@ -156,46 +156,54 @@ gh attestation verify windows11-<build>-debloated.iso --repo DevSecNinja/windows
 
 ## 🛠️ Advanced Customization
 
-### Packages & Features
+### Grouped by capability
 
-The lists of components to remove live in **`data/packages.json`** — separated from
-the script logic so they can be reviewed and edited without touching code. Each
-entry carries a required human-readable `description` and a `remove` flag
-(`true` = removed, `false` = kept):
+The debloat data lives in a single **`data/features.json`**, grouped **per
+capability/feature** so everything a feature touches — its packages *and* its
+registry keys — is visible in one place. This is separated from the script logic
+so it can be reviewed and edited without touching code. Each feature has an `id`,
+a `name`, a `description`, and `packages` / `registry` lists:
 
 ```jsonc
-{ "pattern": "Microsoft.BingNews*", "description": "Bing News", "remove": true }
+{
+  "features": [
+    {
+      "id": "copilotAndAi",
+      "name": "Copilot & Windows AI",
+      "description": "Windows Copilot, the Windows AI platform and related AI experiences.",
+      "packages": [
+        { "type": "aiAppx", "pattern": "Microsoft.Windows.Copilot*", "description": "Windows Copilot", "remove": true }
+      ],
+      "registry": [
+        { "description": "Turn off Windows Copilot [Verified] https://learn.microsoft.com/...",
+          "phase": "ai", "action": "add", "key": "HKLM\\zSOFTWARE\\Policies\\Microsoft\\Windows\\WindowsCopilot",
+          "name": "TurnOffWindowsCopilot", "type": "REG_DWORD", "data": "1" }
+      ]
+    }
+  ]
+}
 ```
 
-- **`provisionedAppxPackages`** – Microsoft Store apps
-- **`capabilities`** – optional Windows features (`{langCode}` is expanded at runtime)
-- **`windowsPackages`** – core Windows packages
-- **`edgeAppxPackages`** / **`aiAppxPackages`** – Edge and AI component packages
+**Packages** — each entry carries a required human-readable `description`, a
+`remove` flag (`true` = removed, `false` = kept), and a `type` that selects the
+removal path:
+
+- **`appx`** – provisioned Microsoft Store apps
+- **`capability`** – optional Windows features (`{langCode}` is expanded at runtime)
+- **`windowsPackage`** – core Windows packages
+- **`edgeAppx`** / **`aiAppx`** – Edge and AI component packages
 
 To **whitelist** (keep) a package, set its `"remove"` to `false` — no need to edit
 the script.
 
-### Tweaks
+**Registry** — each op records what it changes and carries a `phase` tag (e.g.
+`ai`, `recall`, `edge`) so the script still applies it at the exact same point in
+the run. Descriptions confirmed against official documentation are postfixed with
+`[Verified]` and the source link. Recall is kept in its **own** `recall` feature,
+separate from Copilot, so you can disable Recall while keeping Copilot.
 
-The registry tweaks live in **`data/registry.json`**, grouped into named sections
-that mirror the script's steps. Every operation records what it changes:
-
-```jsonc
-{ "description": "Set the Windows diagnostic data (telemetry) level to Security/off [Verified] https://learn.microsoft.com/en-us/windows/privacy/configure-windows-diagnostic-data-in-your-organization",
-  "action": "add", "key": "HKLM\\zSOFTWARE\\Policies\\Microsoft\\Windows\\DataCollection",
-  "name": "AllowTelemetry", "type": "REG_DWORD", "data": "0" }
-```
-
-Descriptions confirmed against official documentation are postfixed with
-`[Verified]` and the source link. These tweaks:
-- Improve system performance
-- Enhance privacy settings
-- Disable telemetry and data collection
-- Remove unnecessary UI elements
-- Remove AI components completely
-
-> Both data files are downloaded automatically from this repository if they are
-> not present next to the script, so the standalone script keeps working on its own.
+> The data file is downloaded automatically from this repository if it is not
+> present next to the script, so the standalone script keeps working on its own.
 
 ## ⚙️ Technical Details
 

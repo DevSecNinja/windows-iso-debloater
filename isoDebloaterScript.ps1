@@ -87,7 +87,7 @@ Write-Host "`n*Important Notes: " -ForegroundColor Yellow
 Write-Host "  1. Some prompts will appear during the process."
 Write-Host "  2. Administrative privileges are required to run this script."
 Write-Host "  3. Review the script beforehand to understand its actions."
-Write-Host "  4. To whitelist a package, set its `"remove`" to false in data/packages.json."
+Write-Host "  4. To whitelist a package, set its `"remove`" to false in data/features.json."
 Write-Host "  5. Select the ISO to proceed."
 Start-Sleep -Milliseconds 800
 
@@ -180,11 +180,15 @@ function Get-ParameterValue {
     return Get-Confirmation -Question $Question -DefaultValue $DefaultValue -Description $Description
 }
 
-# --- Debloat data (package lists + registry tweaks) -----------------------------
-# The debloat data lives as JSON under a 'data' folder next to the script so the
+# --- Debloat data (grouped by capability) ---------------------------------------
+# The debloat data lives as JSON in data/features.json next to the script so the
 # package lists and registry settings can be reviewed/edited without touching the
-# script logic. Every entry carries a human-readable (and, where applicable,
-# documentation-verified) description. If a data file is not present locally it is
+# script logic. Data is grouped per capability/feature (e.g. "Copilot & Windows AI"),
+# so every package and registry key a feature touches is visible in one place. Each
+# package carries a 'type' (appx/capability/windowsPackage/edgeAppx/aiAppx) and each
+# registry op a 'phase' tag, so the script still applies them at the exact same point
+# as before. Every entry carries a human-readable (and, where applicable,
+# documentation-verified) description. If the data file is not present locally it is
 # downloaded from this fork - the same pattern used for Autounattend.xml.
 function Import-DebloatData {
     param([Parameter(Mandatory = $true)][string]$Name)
@@ -206,23 +210,32 @@ function Import-DebloatData {
     catch { throw "Failed to parse data file '$Name': $($_.Exception.Message)" }
 }
 
-# Resolve the patterns to remove from a package-data list, expanding {langCode}.
-function Get-RemovalPatterns {
-    param([Parameter(Mandatory = $true)]$Entries, [string]$LangCode = "")
-    foreach ($e in $Entries) {
-        if ($e.remove) { $e.pattern -replace '\{langCode\}', $LangCode }
+# Resolve the patterns to remove for a package type, expanding {langCode}. Packages
+# are grouped by capability in data/features.json; this flattens every feature's
+# packages of the given type, preserving file order.
+function Get-FeaturePatterns {
+    param([Parameter(Mandatory = $true)][string]$Type, [string]$LangCode = "")
+    foreach ($feature in $FeatureData.features) {
+        foreach ($p in $feature.packages) {
+            if ($p.type -eq $Type -and $p.remove) {
+                $p.pattern -replace '\{langCode\}', $LangCode
+            }
+        }
     }
 }
 
-# Apply a named group of registry operations defined in data/registry.json.
-# Hive loading/unloading and any conditional logic stay in the script; only the
-# operations (and their descriptions) live in the data file. Argument building
-# mirrors the original inline 'reg add/delete ...' calls exactly.
+# Apply a named group of registry operations from data/features.json. Registry ops
+# are grouped by capability but each carries a 'phase' tag (the original section
+# name); this fires every op tagged with $Name across all features, in file order,
+# so hive load/unload and conditional logic in the script are unchanged. Argument
+# building mirrors the original inline 'reg add/delete ...' calls exactly.
 function Invoke-RegistrySection {
     param([Parameter(Mandatory = $true)][string]$Name)
-    $section = $RegistryData.sections | Where-Object { $_.name -eq $Name }
-    if (-not $section) { Write-Log -msg "Registry section '$Name' not found in registry.json"; return }
-    foreach ($op in $section.ops) {
+    $ops = foreach ($feature in $FeatureData.features) {
+        foreach ($op in $feature.registry) { if ($op.phase -eq $Name) { $op } }
+    }
+    if (-not $ops) { Write-Log -msg "Registry phase '$Name' not found in features.json"; return }
+    foreach ($op in $ops) {
         $hasName = ($op.PSObject.Properties['name']) -and ($null -ne $op.name)
         Write-Log -msg ("[{0}] {1}{2} - {3}" -f $op.action, $op.key, $(if ($hasName) { " /v $($op.name)" } else { "" }), $op.description)
         $regArgs = @($op.action, $op.key)
@@ -661,15 +674,13 @@ $DoDriverIntegrate = Get-ParameterValue -ParameterValue $DriverIntegrate -Defaul
 $DoESDConvert = Get-ParameterValue -ParameterValue $ESDConvert -DefaultValue $false -Question "Compress the ISO?" -Description "Recommended but slow: Reduces ISO file size"
 $DoUseOscdimg = Get-ParameterValue -ParameterValue $useOscdimg -DefaultValue $true -Question "Use Oscdimg for ISO creation?" -Description "Recommended: Oscdimg is more reliable"
 
-# Package removal lists live in data/packages.json (each entry has a required
-# description + a "remove" flag). Whitelist a package by setting its "remove"
-# to false there instead of commenting out lines in this script. Registry tweaks
-# live in data/registry.json.
-$PackageData = Import-DebloatData -Name 'packages.json'
-$RegistryData = Import-DebloatData -Name 'registry.json'
-$appxPatternsToRemove    = @(Get-RemovalPatterns -Entries $PackageData.provisionedAppxPackages -LangCode $langCode)
-$capabilitiesToRemove    = @(Get-RemovalPatterns -Entries $PackageData.capabilities -LangCode $langCode)
-$windowsPackagesToRemove = @(Get-RemovalPatterns -Entries $PackageData.windowsPackages -LangCode $langCode)
+# Debloat data is grouped by capability in data/features.json (each package/registry
+# entry has a required description). Whitelist a package by setting its "remove" to
+# false there instead of commenting out lines in this script.
+$FeatureData = Import-DebloatData -Name 'features.json'
+$appxPatternsToRemove    = @(Get-FeaturePatterns -Type 'appx' -LangCode $langCode)
+$capabilitiesToRemove    = @(Get-FeaturePatterns -Type 'capability' -LangCode $langCode)
+$windowsPackagesToRemove = @(Get-FeaturePatterns -Type 'windowsPackage' -LangCode $langCode)
 
 function Remove-Packages {
     param( [string[]]$Patterns, [string]$SectionTitle, [string]$PackageType, [string]$MountPath, [int]$StartIndex = 1, [int]$TotalCount, [int]$StatusColumn )
@@ -811,8 +822,8 @@ if ($DoEdgeRemove) {
     Write-Log -msg "Executing DISM - Remove-Edge"
     dism /image:"$installMountDir" /Remove-Edge 2>&1 | Write-Log
 
-    # Edge Patterns (from data/packages.json)
-    $EdgePatterns = @(Get-RemovalPatterns -Entries $PackageData.edgeAppxPackages)
+    # Edge Patterns (from data/features.json)
+    $EdgePatterns = @(Get-FeaturePatterns -Type 'edgeAppx')
 
     # Remove Edge Packages
     foreach ($pattern in $EdgePatterns) {
@@ -839,7 +850,7 @@ if ($DoEdgeRemove) {
         reg load HKLM\zNTUSER "$installMountDir\Users\Default\ntuser.dat" 2>&1 | Write-Log
         reg load HKLM\zDEFAULT "$installMountDir\Windows\System32\config\default" 2>&1 | Write-Log
 
-        # Registry operations (see data/registry.json - section 'edge')
+        # Registry operations (see data/features.json - phase 'edge')
         Invoke-RegistrySection -Name 'edge'
 
         # Disable Edge updates and installation
@@ -905,8 +916,8 @@ if ($buildNumber -ge 22000) {
         Write-Host ("`n[INFO] Removing AI components...") -ForegroundColor Cyan
         Write-Log -msg "Removing AI components"
 
-        # Remove AI Packages (from data/packages.json)
-        $AIpatterns = @(Get-RemovalPatterns -Entries $PackageData.aiAppxPackages)
+        # Remove AI Packages (from data/features.json)
+        $AIpatterns = @(Get-FeaturePatterns -Type 'aiAppx')
         Write-Host "  - Removing Provisioned AI packages..." -ForegroundColor DarkGray
         Write-Log -msg "Removing Provisioned AI packages"
         foreach ($pattern in $AIpatterns) {
