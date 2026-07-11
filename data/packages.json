@@ -2,425 +2,425 @@
   "provisionedAppxPackages": [
     {
       "pattern": "Microsoft.Microsoft3DViewer*",
-      "description": "3DViewer",
+      "description": "3D Viewer app",
       "remove": true
     },
     {
       "pattern": "Microsoft.WindowsAlarms*",
-      "description": "Alarms",
+      "description": "Alarms & Clock app",
       "remove": true
     },
     {
       "pattern": "Microsoft.BingNews*",
-      "description": "Bing News",
+      "description": "Microsoft News (Bing News) app",
       "remove": true
     },
     {
       "pattern": "Microsoft.BingSearch*",
-      "description": "Bing Search",
+      "description": "Bing web search integration in Windows Search",
       "remove": true
     },
     {
       "pattern": "Microsoft.BingWeather*",
-      "description": "Bing Weather (Removing Breaks Widgets)",
+      "description": "MSN Weather (Bing Weather) app (removing breaks Widgets)",
       "remove": true
     },
     {
       "pattern": "Windows.CBSPreview*",
-      "description": "CBS Preview",
+      "description": "CBS Preview system component (camera barcode-scanner preview)",
       "remove": true
     },
     {
       "pattern": "Clipchamp.Clipchamp*",
-      "description": "Clipchamp",
+      "description": "Clipchamp video editor",
       "remove": true
     },
     {
       "pattern": "Microsoft.549981C3F5F10*",
-      "description": "Cortana",
+      "description": "Cortana app",
       "remove": true
     },
     {
       "pattern": "MicrosoftWindows.CrossDevice*",
-      "description": "CrossDevice",
+      "description": "Cross Device / Phone Link camera experience",
       "remove": true
     },
     {
       "pattern": "MicrosoftWindows.Client.WebExperience*",
-      "description": "Widgets (WebExperience)",
+      "description": "Widgets board (Web Experience host) (removing breaks Widgets)",
       "remove": true
     },
     {
       "pattern": "Microsoft.Windows.DevHome*",
-      "description": "DevHome",
+      "description": "Dev Home app",
       "remove": true
     },
     {
       "pattern": "MicrosoftCorporationII.MicrosoftFamily*",
-      "description": "Family",
+      "description": "Microsoft Family Safety app",
       "remove": true
     },
     {
       "pattern": "Microsoft.WindowsFeedbackHub*",
-      "description": "FeedbackHub",
+      "description": "Feedback Hub app",
       "remove": true
     },
     {
       "pattern": "Microsoft.GetHelp*",
-      "description": "GetHelp",
+      "description": "Get Help support app",
       "remove": true
     },
     {
       "pattern": "Microsoft.Getstarted*",
-      "description": "GetStarted",
+      "description": "Get Started / Tips app",
       "remove": true
     },
     {
       "pattern": "Microsoft.WindowsCommunicationsapps*",
-      "description": "Mail",
+      "description": "Mail and Calendar apps",
       "remove": true
     },
     {
       "pattern": "Microsoft.WindowsMaps*",
-      "description": "Maps",
+      "description": "Windows Maps app",
       "remove": true
     },
     {
       "pattern": "Microsoft.MixedReality.Portal*",
-      "description": "MixedReality",
+      "description": "Mixed Reality Portal app",
       "remove": true
     },
     {
       "pattern": "Microsoft.ZuneMusic*",
-      "description": "Music",
+      "description": "Windows Media Player / Groove Music (Zune Music) app",
       "remove": true
     },
     {
       "pattern": "Microsoft.MicrosoftOfficeHub*",
-      "description": "OfficeHub",
+      "description": "Microsoft 365 (Office) hub app",
       "remove": true
     },
     {
       "pattern": "Microsoft.M365Companions*",
-      "description": "M365 Companions (Files & contacts app)",
+      "description": "Microsoft 365 Companions (Files & contacts) app",
       "remove": true
     },
     {
       "pattern": "Microsoft.Office.OneNote*",
-      "description": "OneNote",
+      "description": "OneNote for Windows 10 app",
       "remove": true
     },
     {
       "pattern": "Microsoft.OutlookForWindows*",
-      "description": "Outlook",
+      "description": "New Outlook for Windows app",
       "remove": true
     },
     {
       "pattern": "Microsoft.MSPaint*",
-      "description": "Paint3D(Windows10)",
+      "description": "Paint 3D app (Windows 10)",
       "remove": true
     },
     {
       "pattern": "Microsoft.People*",
-      "description": "People",
+      "description": "People app",
       "remove": true
     },
     {
       "pattern": "Microsoft.Windows.PeopleExperienceHost*",
-      "description": "PeopleExperienceHost",
+      "description": "People Experience Host (My People taskbar feature)",
       "remove": true
     },
     {
       "pattern": "Microsoft.YourPhone*",
-      "description": "Phone",
+      "description": "Phone Link (Your Phone) app",
       "remove": true
     },
     {
       "pattern": "Microsoft.PowerAutomateDesktop*",
-      "description": "PowerAutomate",
+      "description": "Power Automate Desktop app",
       "remove": true
     },
     {
       "pattern": "MicrosoftCorporationII.QuickAssist*",
-      "description": "QuickAssist",
+      "description": "Quick Assist remote-help app",
       "remove": true
     },
     {
       "pattern": "Microsoft.SkypeApp*",
-      "description": "Skype",
+      "description": "Skype app",
       "remove": true
     },
     {
       "pattern": "Microsoft.MicrosoftStickyNotes*",
-      "description": "Sticky Notes",
+      "description": "Sticky Notes app",
       "remove": true
     },
     {
       "pattern": "Microsoft.MicrosoftSolitaireCollection*",
-      "description": "SolitaireCollection",
+      "description": "Microsoft Solitaire Collection",
       "remove": true
     },
     {
       "pattern": "Microsoft.WindowsSoundRecorder*",
-      "description": "SoundRecorder",
+      "description": "Sound Recorder (Voice Recorder) app",
       "remove": false
     },
     {
       "pattern": "MicrosoftTeams*",
-      "description": "Teams_old",
+      "description": "Microsoft Teams (personal, legacy) app",
       "remove": true
     },
     {
       "pattern": "MSTeams*",
-      "description": "Teams",
+      "description": "Microsoft Teams app",
       "remove": true
     },
     {
       "pattern": "Microsoft.Windows.Teams*",
-      "description": "Teams",
+      "description": "Microsoft Teams (Free) integration",
       "remove": true
     },
     {
       "pattern": "Microsoft.Todos*",
-      "description": "Todos",
+      "description": "Microsoft To Do app",
       "remove": true
     },
     {
       "pattern": "Microsoft.ZuneVideo*",
-      "description": "Video",
+      "description": "Films & TV (Zune Video) app",
       "remove": true
     },
     {
       "pattern": "Microsoft.Wallet*",
-      "description": "Wallet",
+      "description": "Microsoft Wallet / Pay app",
       "remove": true
     },
     {
       "pattern": "Microsoft.GamingApp*",
-      "description": "Xbox",
+      "description": "Xbox app",
       "remove": true
     },
     {
       "pattern": "Microsoft.XboxApp*",
-      "description": "Xbox(Win10)",
+      "description": "Xbox Console Companion (Windows 10)",
       "remove": true
     },
     {
       "pattern": "Microsoft.XboxGameOverlay*",
-      "description": "XboxGameOverlay",
+      "description": "Xbox Game Bar overlay",
       "remove": true
     },
     {
       "pattern": "Microsoft.XboxGamingOverlay*",
-      "description": "XboxGamingOverlay",
+      "description": "Xbox Game Bar (gaming overlay)",
       "remove": true
     },
     {
       "pattern": "Microsoft.XboxIdentityProvider*",
-      "description": "Xbox Identity Provider (Removing Breaks some Xbox Games)",
+      "description": "Xbox sign-in identity provider (removing breaks some Xbox games)",
       "remove": false
     },
     {
       "pattern": "Microsoft.XboxSpeechToTextOverlay*",
-      "description": "XboxSpeechToTextOverlay",
+      "description": "Xbox speech-to-text overlay",
       "remove": true
     },
     {
       "pattern": "Microsoft.Xbox.TCUI*",
-      "description": "XboxTitleCallableUI",
+      "description": "Xbox Title Callable UI",
       "remove": true
     },
     {
       "pattern": "Microsoft.SecHealthUI*",
-      "description": "Windows Security (Caution)",
+      "description": "Windows Security app (caution: removing disables the Security UI)",
       "remove": false
     }
   ],
   "capabilities": [
     {
       "pattern": "Browser.InternetExplorer*",
-      "description": "InternetExplorer",
+      "description": "Internet Explorer 11 browser",
       "remove": true
     },
     {
       "pattern": "Internet-Explorer*",
-      "description": "Internet-Explorer",
+      "description": "Internet Explorer legacy components",
       "remove": true
     },
     {
       "pattern": "App.StepsRecorder*",
-      "description": "StepsRecorder",
+      "description": "Steps Recorder (PSR) problem-recording tool",
       "remove": true
     },
     {
       "pattern": "Language.Handwriting~~~{langCode}*",
-      "description": "Handwriting~~~{langCode}",
+      "description": "Handwriting recognition for the image's display language",
       "remove": true
     },
     {
       "pattern": "Language.OCR~~~{langCode}*",
-      "description": "OCR~~~{langCode}",
+      "description": "Optical character recognition (OCR) for the image's display language",
       "remove": true
     },
     {
       "pattern": "Language.Speech~~~{langCode}*",
-      "description": "Speech~~~{langCode}",
+      "description": "Speech recognition for the image's display language",
       "remove": true
     },
     {
       "pattern": "Language.TextToSpeech~~~{langCode}*",
-      "description": "TextToSpeech~~~{langCode}",
+      "description": "Text-to-speech for the image's display language",
       "remove": true
     },
     {
       "pattern": "Microsoft.Windows.WordPad*",
-      "description": "WordPad",
+      "description": "WordPad rich-text editor",
       "remove": true
     },
     {
       "pattern": "MathRecognizer*",
-      "description": "MathRecognizer",
+      "description": "Math Input Panel handwriting recognizer",
       "remove": true
     },
     {
       "pattern": "Microsoft.Windows.PowerShell.ISE*",
-      "description": "ISE",
+      "description": "Windows PowerShell ISE scripting editor",
       "remove": true
     },
     {
       "pattern": "Hello.Face*",
-      "description": "Removing Breaks Windows-Hello",
+      "description": "Windows Hello face-recognition components (removing breaks Windows Hello)",
       "remove": false
     },
     {
       "pattern": "Media.WindowsMediaPlayer*",
-      "description": "WindowsMediaPlayer",
+      "description": "Windows Media Player (legacy)",
       "remove": true
     }
   ],
   "windowsPackages": [
     {
       "pattern": "Microsoft-Windows-InternetExplorer-Optional-Package*",
-      "description": "Microsoft-Windows-InternetExplorer-Optional-Package",
+      "description": "Internet Explorer 11 optional package",
       "remove": true
     },
     {
       "pattern": "Microsoft-Windows-LanguageFeatures-Handwriting-{langCode}-Package*",
-      "description": "Microsoft-Windows-LanguageFeatures-Handwriting-{langCode}-Package",
+      "description": "Handwriting recognition language package (image's display language)",
       "remove": true
     },
     {
       "pattern": "Microsoft-Windows-LanguageFeatures-OCR-{langCode}-Package*",
-      "description": "Microsoft-Windows-LanguageFeatures-OCR-{langCode}-Package",
+      "description": "OCR language package (image's display language)",
       "remove": true
     },
     {
       "pattern": "Microsoft-Windows-LanguageFeatures-Speech-{langCode}-Package*",
-      "description": "Microsoft-Windows-LanguageFeatures-Speech-{langCode}-Package",
+      "description": "Speech recognition language package (image's display language)",
       "remove": true
     },
     {
       "pattern": "Microsoft-Windows-LanguageFeatures-TextToSpeech-{langCode}-Package*",
-      "description": "Microsoft-Windows-LanguageFeatures-TextToSpeech-{langCode}-Package",
+      "description": "Text-to-speech language package (image's display language)",
       "remove": true
     },
     {
       "pattern": "Microsoft-Windows-Wallpaper-Content-Extended-FoD-Package*",
-      "description": "Microsoft-Windows-Wallpaper-Content-Extended-FoD-Package",
+      "description": "Extended wallpaper/theme content (Feature on Demand)",
       "remove": true
     },
     {
       "pattern": "Microsoft-Windows-WordPad-FoD-Package*",
-      "description": "Microsoft-Windows-WordPad-FoD-Package",
+      "description": "WordPad Feature on Demand package",
       "remove": true
     },
     {
       "pattern": "Microsoft-Windows-MediaPlayer-Package*",
-      "description": "Microsoft-Windows-MediaPlayer-Package",
+      "description": "Windows Media Player package",
       "remove": true
     },
     {
       "pattern": "Microsoft-Windows-TabletPCMath-Package*",
-      "description": "Microsoft-Windows-TabletPCMath-Package",
+      "description": "Math Input Panel (Tablet PC Math) package",
       "remove": true
     },
     {
       "pattern": "Microsoft-Windows-Hello-Face-Package",
-      "description": "Removing Breaks Windows-Hello",
+      "description": "Windows Hello face-recognition package (removing breaks Windows Hello)",
       "remove": false
     },
     {
       "pattern": "Microsoft-Windows-StepsRecorder-Package*",
-      "description": "Microsoft-Windows-StepsRecorder-Package",
+      "description": "Steps Recorder (PSR) package",
       "remove": true
     }
   ],
   "edgeAppxPackages": [
     {
       "pattern": "Microsoft.MicrosoftEdge.Stable*",
-      "description": "Stable",
+      "description": "Microsoft Edge browser (stable channel)",
       "remove": true
     },
     {
       "pattern": "Microsoft.MicrosoftEdgeDevToolsClient*",
-      "description": "MicrosoftEdgeDevToolsClient",
+      "description": "Edge Developer Tools client",
       "remove": true
     },
     {
       "pattern": "Microsoft.Win32WebViewHost*",
-      "description": "Win32WebViewHost",
+      "description": "Win32 WebView host (Edge legacy component)",
       "remove": true
     },
     {
       "pattern": "MicrosoftWindows.Client.WebExperience*",
-      "description": "Removing Breaks Widgets",
+      "description": "Widgets board (Web Experience host) (removing breaks Widgets)",
       "remove": true
     }
   ],
   "aiAppxPackages": [
     {
       "pattern": "Microsoft.Windows.Copilot*",
-      "description": "Copilot",
+      "description": "Windows Copilot",
       "remove": true
     },
     {
       "pattern": "Microsoft.Copilot*",
-      "description": "Copilot",
+      "description": "Copilot app",
       "remove": true
     },
     {
       "pattern": "MicrosoftWindows.Client.AIX*",
-      "description": "AIX",
+      "description": "Windows AI experiences (AIX) component",
       "remove": true
     },
     {
       "pattern": "MicrosoftWindows.Client.CoPilot*",
-      "description": "CoPilot",
+      "description": "Windows Copilot client component",
       "remove": true
     },
     {
       "pattern": "MicrosoftWindows.Client.CoreAI*",
-      "description": "CoreAI",
+      "description": "Windows Core AI platform component",
       "remove": true
     },
     {
       "pattern": "Microsoft.Windows.Ai.Copilot.Provider*",
-      "description": "Provider",
+      "description": "Copilot AI provider component",
       "remove": true
     },
     {
       "pattern": "Microsoft.Edge.GameAssist*",
-      "description": "GameAssist",
+      "description": "Edge Game Assist (AI) component",
       "remove": true
     },
     {
       "pattern": "Microsoft.Office.ActionsServer*",
-      "description": "ActionsServer",
+      "description": "Office AI actions server component",
       "remove": true
     },
     {
       "pattern": "Microsoft.WritingAssistant*",
-      "description": "WritingAssistant",
+      "description": "AI writing assistant component",
       "remove": true
     }
   ]
