@@ -55,7 +55,7 @@ Download the latest `isoDebloaterScript.ps1` from [here](https://github.com/DevS
 -AppxRemove "yes"           # Remove Microsoft Store apps [Default: yes]
 -CapabilitiesRemove "yes"   # Remove optional Windows features [Default: yes]
 -OnedriveRemove "yes"       # Remove OneDrive completely [Default: yes]
--EDGERemove "yes"           # Remove Microsoft Edge browser [Default: yes]
+-EdgeRemove "yes"           # Remove Microsoft Edge browser [Default: yes]
 -AIRemove "yes"             # Remove AI Components [Default: yes]
 -RecallRemove "no"          # Disable Windows Recall only, keeping Copilot [Default: no]
 -TPMBypass "no"             # Bypass TPM & hardware checks [Default: no]
@@ -72,10 +72,10 @@ Download the latest `isoDebloaterScript.ps1` from [here](https://github.com/DevS
 .\isoDebloaterScript.ps1 -noPrompt -isoPath "C:\path\to\windows.iso" -winEdition "Windows 11 Pro" -outputISO "Win11Debloat.iso"
 
 # Customize specific options:
-.\isoDebloaterScript.ps1 -isoPath "C:\path\to\windows.iso" -EDGERemove no -TPMBypass yes
+.\isoDebloaterScript.ps1 -isoPath "C:\path\to\windows.iso" -EdgeRemove no -TPMBypass yes
 
 # Create minimal Windows installation:
-.\isoDebloaterScript.ps1 -AppxRemove yes -CapabilitiesRemove yes -OnedriveRemove yes -EDGERemove yes -AIRemove yes -ESDConvert yes
+.\isoDebloaterScript.ps1 -AppxRemove yes -CapabilitiesRemove yes -OnedriveRemove yes -EdgeRemove yes -AIRemove yes -ESDConvert yes
 
 # Integrate Intel RAID/VMD drivers:
 .\isoDebloaterScript.ps1 -isoPath "C:\path\to\windows.iso" -DriverIntegrate yes
@@ -123,7 +123,7 @@ downloadable artifact — no local Windows machine required.
 | `AppxRemove` | yes | | `UserFoldersEnable` | yes |
 | `CapabilitiesRemove` | yes | | `DriverIntegrate` | no |
 | `OnedriveRemove` | no | | `ESDConvert` (compress) | yes |
-| `EDGERemove` | no | | `useOscdimg` | yes |
+| `EdgeRemove` | no | | `useOscdimg` | yes |
 | `AIRemove` | no | | `RecallRemove` | yes |
 
 `AIRemove` is kept off (Copilot stays), while `RecallRemove` disables Windows
@@ -156,22 +156,54 @@ gh attestation verify windows11-<build>-debloated.iso --repo DevSecNinja/windows
 
 ## 🛠️ Advanced Customization
 
-### Packages & Features
+### Grouped by capability
 
-Components to be removed can be customized by editing the script:
+The debloat data lives in a single **`data/features.json`**, grouped **per
+capability/feature** so everything a feature touches — its packages *and* its
+registry keys — is visible in one place. This is separated from the script logic
+so it can be reviewed and edited without touching code. Each feature has an `id`,
+a `name`, a `description`, and `packages` / `registry` lists:
 
-- **AppX Packages**: Modify the `$appxPatternsToRemove` array to include/exclude Microsoft Store apps
-- **Windows Capabilities**: Edit the `$capabilitiesToRemove` array to manage optional Windows features
-- **Windows Packages**: Adjust the `$windowsPackagesToRemove` array to control core Windows components
+```jsonc
+{
+  "features": [
+    {
+      "id": "copilotAndAi",
+      "name": "Copilot & Windows AI",
+      "description": "Windows Copilot, the Windows AI platform and related AI experiences.",
+      "packages": [
+        { "type": "aiAppx", "pattern": "Microsoft.Windows.Copilot*", "description": "Windows Copilot", "remove": true }
+      ],
+      "registry": [
+        { "description": "Turn off Windows Copilot [Verified] https://learn.microsoft.com/...",
+          "phase": "ai", "action": "add", "key": "HKLM\\zSOFTWARE\\Policies\\Microsoft\\Windows\\WindowsCopilot",
+          "name": "TurnOffWindowsCopilot", "type": "REG_DWORD", "data": "1" }
+      ]
+    }
+  ]
+}
+```
 
-### Tweaks
+**Packages** — each entry carries a required human-readable `description`, a
+`remove` flag (`true` = removed, `false` = kept), and a `type` that selects the
+removal path:
 
-The script includes optimization tweaks to:
-- Improve system performance
-- Enhance privacy settings
-- Disable telemetry and data collection
-- Remove unnecessary UI elements
-- Remove AI components completely
+- **`appx`** – provisioned Microsoft Store apps
+- **`capability`** – optional Windows features (`{langCode}` is expanded at runtime)
+- **`windowsPackage`** – core Windows packages
+- **`edgeAppx`** / **`aiAppx`** – Edge and AI component packages
+
+To **whitelist** (keep) a package, set its `"remove"` to `false` — no need to edit
+the script.
+
+**Registry** — each op records what it changes and carries a `phase` tag (e.g.
+`ai`, `recall`, `edge`) so the script still applies it at the exact same point in
+the run. Descriptions confirmed against official documentation are postfixed with
+`[Verified]` and the source link. Recall is kept in its **own** `recall` feature,
+separate from Copilot, so you can disable Recall while keeping Copilot.
+
+> The data file is downloaded automatically from this repository if it is not
+> present next to the script, so the standalone script keeps working on its own.
 
 ## ⚙️ Technical Details
 

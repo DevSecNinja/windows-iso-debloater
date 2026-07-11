@@ -1,6 +1,7 @@
 # Fetch from this fork over GitHub-served TLS so we never execute upstream-author-controlled content.
 $scriptUrl = "https://raw.githubusercontent.com/DevSecNinja/windows-iso-debloater/main/isoDebloaterScript.ps1"
 $autounattendXmlUrl = "https://raw.githubusercontent.com/DevSecNinja/windows-iso-debloater/main/autounattend.xml"
+$dataBaseUrl = "https://raw.githubusercontent.com/DevSecNinja/windows-iso-debloater/main/data"
 
 # Fail closed on any error so a failed/partial download is never run elevated below.
 $ErrorActionPreference = "Stop"
@@ -18,6 +19,17 @@ $XmlPath = Join-Path -Path $scriptDirectory -ChildPath "autounattend.xml"
 
 Invoke-WebRequest -Uri $scriptUrl -OutFile $scriptPath -UseBasicParsing
 Invoke-WebRequest -Uri $autounattendXmlUrl -OutFile $XmlPath -UseBasicParsing
+
+# Fetch the debloat data file (packages + registry tweaks grouped by capability).
+# The script can also download this itself when missing, but pre-fetching keeps
+# everything local.
+$dataDirectory = Join-Path -Path $scriptDirectory -ChildPath "data"
+if (-not (Test-Path -Path $dataDirectory -PathType Container)) {
+    New-Item -ItemType Directory -Path $dataDirectory > $null 2>&1
+}
+foreach ($dataFile in @("features.json")) {
+    Invoke-WebRequest -Uri "$dataBaseUrl/$dataFile" -OutFile (Join-Path -Path $dataDirectory -ChildPath $dataFile) -UseBasicParsing
+}
 
 # Never launch a missing/empty script with ExecutionPolicy Bypass.
 if (-not (Test-Path -Path $scriptPath) -or (Get-Item $scriptPath).Length -eq 0) {

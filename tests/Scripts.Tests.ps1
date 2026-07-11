@@ -85,3 +85,96 @@ Describe 'GitHub Actions supply-chain hardening' {
         $Ref | Should -Match '@[0-9a-f]{40}$'
     }
 }
+
+Describe 'Debloat data files' {
+    BeforeDiscovery {
+        $repoRoot = Split-Path -Parent $PSScriptRoot
+        $dataDir = Join-Path $repoRoot 'data'
+
+        $features = (Get-Content (Join-Path $dataDir 'features.json') -Raw | ConvertFrom-Json).features
+
+        # Flatten every package entry and registry op into per-item test cases.
+        $packageEntries = foreach ($feature in $features) {
+            foreach ($entry in $feature.packages) {
+                @{ Feature = $feature.id; Type = $entry.type; Pattern = $entry.pattern; Description = $entry.description; Remove = $entry.remove }
+            }
+        }
+        $registryOps = foreach ($feature in $features) {
+            foreach ($op in $feature.registry) {
+                @{ Feature = $feature.id; Phase = $op.phase; Key = $op.key; Action = $op.action; Description = $op.description }
+            }
+        }
+    }
+
+    BeforeAll {
+        $repoRoot = Split-Path -Parent $PSScriptRoot
+        $dataDir = Join-Path $repoRoot 'data'
+        $features = (Get-Content (Join-Path $dataDir 'features.json') -Raw | ConvertFrom-Json).features
+    }
+
+    It 'features.json is valid JSON with a non-empty features list' {
+        $features | Should -Not -BeNullOrEmpty
+    }
+
+    It 'every feature has an id, name and description' {
+        foreach ($feature in $features) {
+            $feature.id          | Should -Not -BeNullOrEmpty
+            $feature.name        | Should -Not -BeNullOrEmpty
+            $feature.description | Should -Not -BeNullOrEmpty
+        }
+    }
+
+    It 'covers all five package types' {
+        $types = $features.packages.type | Sort-Object -Unique
+        foreach ($t in 'appx', 'capability', 'windowsPackage', 'edgeAppx', 'aiAppx') {
+            $types | Should -Contain $t
+        }
+    }
+
+    It 'contains all 219 extracted registry operations' {
+        $count = ($features | ForEach-Object { $_.registry.Count } | Measure-Object -Sum).Sum
+        $count | Should -Be 219
+    }
+
+    It 'keeps Recall in its own feature (disable Recall while keeping Copilot)' {
+        $recall = $features | Where-Object { $_.id -eq 'recall' }
+        $recall | Should -Not -BeNullOrEmpty
+        # Recall's own registry ops are tagged with the 'recall' phase and live only here.
+        ($features | Where-Object { $_.id -ne 'recall' }).registry.phase | Should -Not -Contain 'recall'
+    }
+
+    # The project rule: every setting the tool changes must explain itself.
+    It 'every package entry has a non-empty description (<Feature>/<Type>: <Pattern>)' -ForEach $packageEntries {
+        $Description | Should -Not -BeNullOrEmpty
+    }
+
+    It 'every package entry has a boolean remove flag (<Feature>/<Type>: <Pattern>)' -ForEach $packageEntries {
+        $Remove | Should -BeOfType [bool]
+    }
+
+    It 'every registry op has a non-empty description (<Feature>/<Phase>: <Key>)' -ForEach $registryOps {
+        $Description | Should -Not -BeNullOrEmpty
+    }
+
+    It 'registry ops are limited to add/delete actions (<Feature>/<Phase>: <Key>)' -ForEach $registryOps {
+        $Action | Should -BeIn @('add', 'delete')
+    }
+}
+
+Describe 'isoDebloaterScript.ps1 is data-driven' {
+    BeforeAll {
+        $repoRoot = Split-Path -Parent $PSScriptRoot
+        $scriptText = Get-Content (Join-Path $repoRoot 'isoDebloaterScript.ps1') -Raw
+    }
+
+    It 'loads the external data file' {
+        $scriptText | Should -Match "Import-DebloatData -Name 'features\.json'"
+    }
+
+    It 'no longer hardcodes static registry operations inline' {
+        # Only dynamic ($variable) reg writes and reg load/unload may remain; the
+        # literal HKLM\z* / HKLM\x* add/delete operations now live in features.json.
+        $inline = [regex]::Matches($scriptText, '(?m)^\s*reg (add|delete) "HKLM\\[zx]')
+        $inline.Count | Should -Be 0
+    }
+}
